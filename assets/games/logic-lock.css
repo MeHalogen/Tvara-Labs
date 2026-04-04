@@ -58,12 +58,13 @@
   text-align: left; margin-bottom: 16px;
 }
 .ll-howto p {
-  display: flex; align-items: baseline; gap: 10px;
+  display: flex; align-items: flex-start; gap: 10px;
   font-size: 0.86rem; color: #94a3b8; line-height: 1.55; margin: 0;
 }
 .ll-howto p + p  { margin-top: 8px; }
-.ll-howto p span { flex-shrink: 0; font-size: 1rem; }
-.ll-howto p strong { color: #cbd5e1; font-weight: 700; white-space: nowrap; }
+.ll-howto p > span:first-child { flex-shrink: 0; width: 1.3em; text-align: center; font-size: 1rem; margin-top: 1px; }
+.ll-howto-text   { flex: 1; min-width: 0; }
+.ll-howto strong { color: #cbd5e1; font-weight: 700; }
 
 /* clue legend — section header */
 .ll-legend-title {
