@@ -63,7 +63,7 @@
     <!-- Games section -->
     <div class="section-header">
       <span class="section-title">Games</span>
-      <span class="section-count">2 live · 2 coming soon</span>
+      <span class="section-count">3 live · 1 coming soon</span>
     </div>
 
     <div class="carousel-wrap">
@@ -109,11 +109,11 @@
           </div>
         </div>
 
-        <!-- Logic Lock — Coming Soon -->
-        <div class="game-card gc-logic">
+        <!-- Logic Lock — Live -->
+        <div class="game-card gc-logic" id="card-logic">
           <div class="card-top">
             <span class="card-icon">🧩</span>
-            <span class="card-status status-soon">Soon</span>
+            <span class="card-status status-live">Live</span>
           </div>
           <div class="card-body">
             <div class="card-name">Logic Lock</div>
@@ -121,10 +121,11 @@
           </div>
           <div class="card-footer">
             <div class="card-meta">
-              <span class="meta-chip">Logic</span>
-              <span class="meta-chip">Deduction</span>
+              <span class="meta-chip gc-logic-chip">Logic</span>
+              <span class="meta-chip gc-logic-chip">8 tries</span>
+              <span class="card-best" id="home-ll-chip">🏆 <span id="home-ll-best">—</span></span>
             </div>
-            <span class="locked-btn">🔒 Locked</span>
+            <button class="card-play-btn gc-logic-btn">Play ›</button>
           </div>
         </div>
 

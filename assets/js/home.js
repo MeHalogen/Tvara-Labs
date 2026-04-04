@@ -6,6 +6,7 @@ import { initCarousel } from './carousel.js';
 
 const LS_PP = 'tf_pp_best';
 const LS_RR = 'tf_rr_best';
+const LS_LL = 'tf_ll_best';
 
 function getBest(key) {
   return parseInt(localStorage.getItem(key) || '0', 10);
@@ -25,6 +26,13 @@ function refreshHomeBests() {
   const rrChip = document.getElementById('home-rr-chip');
   if (rrEl)   rrEl.textContent = rrBest > 0 ? rrBest : '—';
   if (rrChip && rrBest > 0) rrChip.classList.add('show');
+
+  // Logic Lock
+  const llBest = getBest(LS_LL);
+  const llEl   = document.getElementById('home-ll-best');
+  const llChip = document.getElementById('home-ll-chip');
+  if (llEl)   llEl.textContent = llBest > 0 ? llBest : '—';
+  if (llChip && llBest > 0) llChip.classList.add('show');
 }
 
 function init() {
@@ -42,6 +50,10 @@ function init() {
   // Reflex Rush card
   const reflexCard = document.getElementById('card-reflex');
   if (reflexCard) reflexCard.addEventListener('click', () => { location.href = 'games/reflex-rush.html'; });
+
+  // Logic Lock card
+  const logicCard = document.getElementById('card-logic');
+  if (logicCard) logicCard.addEventListener('click', () => { location.href = 'games/logic-lock.html'; });
 }
 
 document.addEventListener('DOMContentLoaded', init);

@@ -9,10 +9,12 @@
   <link rel="stylesheet" href="../assets/css/base.css"/>
   <link rel="stylesheet" href="../assets/css/nav.css"/>
   <link rel="stylesheet" href="../assets/games/game-shell.css"/>
+  <link rel="stylesheet" href="../assets/games/logic-lock.css"/>
 </head>
 <body>
-<div id="app">
+<div id="ll-app">
 
+  <!-- ── Nav ── -->
   <nav class="tf-nav">
     <div class="tf-nav-inner">
       <a class="nav-brand" href="../index.html">
@@ -26,14 +28,146 @@
     </div>
   </nav>
 
-  <div class="soon-wrap">
-    <div class="soon-icon">🧩</div>
-    <div class="soon-title">Logic Lock</div>
-    <span class="soon-badge">Coming Soon</span>
-    <p class="soon-desc">Break the code using deductive reasoning under pressure.</p>
-    <a class="back-btn" href="../index.html">← Back to ThinkFast</a>
-  </div>
+  <div class="ll-wrap">
 
-</div>
+    <!-- ══ PRE-PLAY ══ -->
+    <div id="ll-preplay">
+      <span class="ll-game-icon">🧩</span>
+      <div class="ll-game-name">Logic Lock</div>
+      <div class="ll-game-sub">Code Breaker</div>
+      <div class="ll-tagline">Crack the 4-digit secret code.</div>
+      <div class="ll-best-row">
+        🏆 Best Score &nbsp;<span class="bv" id="ll-best">—</span>
+      </div>
+
+      <!-- how-to -->
+      <div class="ll-howto">
+        <p><span>🔢</span> Guess the hidden 4-digit code (digits 1–9)</p>
+        <p><span>⏱️</span> You have 45 seconds per attempt</p>
+        <p><span>🔄</span> Up to 8 attempts before game over</p>
+        <p><span>🧩</span> Use colour clues to narrow it down</p>
+      </div>
+
+      <!-- pip legend -->
+      <div class="ll-legend">
+        <div class="ll-legend-item">
+          <div class="ll-legend-pip hit"></div>
+          <span>Right digit, right place</span>
+        </div>
+        <div class="ll-legend-item">
+          <div class="ll-legend-pip near"></div>
+          <span>Right digit, wrong place</span>
+        </div>
+        <div class="ll-legend-item">
+          <div class="ll-legend-pip miss"></div>
+          <span>Digit not in code</span>
+        </div>
+      </div>
+
+      <button class="ll-cta-btn" id="ll-play-btn">🧩 Play Now</button>
+    </div>
+
+    <!-- ══ GAME ══ -->
+    <div id="ll-game" style="display:none">
+
+      <!-- header -->
+      <div class="ll-header">
+        <div class="ll-header-left">
+          <span class="ll-header-brand">ThinkFast</span>
+          <span class="ll-header-mode">Logic Lock</span>
+        </div>
+        <div class="ll-attempts-badge" id="ll-attempts">8 left</div>
+      </div>
+
+      <!-- timer bar -->
+      <div class="ll-timer-wrap">
+        <div class="ll-timer-bar safe" id="ll-timer-bar"></div>
+        <span class="ll-timer-count" id="ll-timer-count">45s</span>
+      </div>
+
+      <!-- guess history board -->
+      <div class="ll-board" id="ll-board"></div>
+
+      <!-- input area -->
+      <div class="ll-input-area">
+        <div class="ll-input-cells">
+          <div class="ll-input-cell active" id="ll-ic-0"></div>
+          <div class="ll-input-cell"        id="ll-ic-1"></div>
+          <div class="ll-input-cell"        id="ll-ic-2"></div>
+          <div class="ll-input-cell"        id="ll-ic-3"></div>
+        </div>
+
+        <!-- numpad: digits 1-9 + del -->
+        <div class="ll-numpad">
+          <button class="ll-key" data-digit="1">1</button>
+          <button class="ll-key" data-digit="2">2</button>
+          <button class="ll-key" data-digit="3">3</button>
+          <button class="ll-key" data-digit="4">4</button>
+          <button class="ll-key" data-digit="5">5</button>
+          <button class="ll-key" data-digit="6">6</button>
+          <button class="ll-key" data-digit="7">7</button>
+          <button class="ll-key" data-digit="8">8</button>
+          <button class="ll-key" data-digit="9">9</button>
+          <button class="ll-key ll-del-key" id="ll-del-btn">⌫</button>
+        </div>
+
+        <button class="ll-submit-btn" id="ll-submit-btn" disabled>Submit ›</button>
+      </div>
+
+    </div><!-- /ll-game -->
+
+    <!-- ══ GAME OVER ══ -->
+    <div id="ll-gameover" style="display:none">
+      <span class="ll-go-emoji" id="ll-go-emoji">🧩</span>
+      <div class="ll-go-title" id="ll-go-title">Code Cracked!</div>
+      <div class="ll-go-sub"   id="ll-go-sub">Solved in 3 attempts!</div>
+      <div class="ll-divider"></div>
+
+      <!-- code reveal -->
+      <div class="ll-reveal-label">The Secret Code</div>
+      <div class="ll-code-reveal" id="ll-code-reveal"></div>
+
+      <div class="ll-scores-row">
+        <div class="ll-score-col">
+          <div class="ll-go-score-val" id="ll-final-score">0</div>
+          <div class="ll-go-label">Your Score</div>
+        </div>
+        <div style="width:1px;height:44px;background:rgba(255,255,255,0.08)"></div>
+        <div class="ll-score-col">
+          <div class="ll-go-best-val" id="ll-best-display">0</div>
+          <div class="ll-go-label">Best Score</div>
+        </div>
+      </div>
+
+      <div class="ll-beat-best" id="ll-beat-best"></div>
+
+      <!-- stat row -->
+      <div class="ll-stats-row">
+        <div class="ll-stat-col">
+          <div class="ll-stat-val" id="ll-stat-attempts">—</div>
+          <div class="ll-stat-lbl">Attempts</div>
+        </div>
+        <div class="ll-stat-col">
+          <div class="ll-stat-val" id="ll-stat-score">—</div>
+          <div class="ll-stat-lbl">Score</div>
+        </div>
+        <div class="ll-stat-col">
+          <div class="ll-stat-val" id="ll-stat-result">—</div>
+          <div class="ll-stat-lbl">Result</div>
+        </div>
+      </div>
+
+      <button class="ll-share-btn" id="ll-share-btn">🔗 Share Score</button>
+      <div class="ll-go-actions">
+        <button class="ll-restart-btn" id="ll-restart-btn">🔄 Play Again</button>
+        <button class="ll-menu-btn"    id="ll-menu-btn">← Menu</button>
+      </div>
+    </div><!-- /ll-gameover -->
+
+  </div><!-- /ll-wrap -->
+</div><!-- /ll-app -->
+
+<div class="toast" id="toast"></div>
+<script type="module" src="../assets/games/logic-lock.js"></script>
 </body>
 </html>

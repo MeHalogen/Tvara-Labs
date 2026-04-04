@@ -294,6 +294,26 @@
 .card-best.show { display: inline-flex; align-items: center; gap: 4px; }
 
 /* ════════════════════════════════
+   Logic Lock card
+   ════════════════════════════════ */
+.gc-logic { opacity: 1; }
+.gc-logic-chip {
+  color: var(--red);
+  border-color: rgba(239,68,68,0.22);
+  background: rgba(239,68,68,0.08);
+}
+.gc-logic-btn {
+  background: linear-gradient(135deg, #b91c1c, #ef4444);
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(239,68,68,0.4);
+}
+.gc-logic-btn:hover {
+  background: linear-gradient(135deg, #991b1b, #dc2626);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(239,68,68,0.55);
+}
+
+/* ════════════════════════════════
    Feature strip
    ════════════════════════════════ */
 .feature-strip {
