@@ -9,10 +9,12 @@
   <link rel="stylesheet" href="../assets/css/base.css"/>
   <link rel="stylesheet" href="../assets/css/nav.css"/>
   <link rel="stylesheet" href="../assets/games/game-shell.css"/>
+  <link rel="stylesheet" href="../assets/games/reflex-rush.css"/>
 </head>
 <body>
-<div id="app">
+<div id="rr-app">
 
+  <!-- ── Nav ── -->
   <nav class="tf-nav">
     <div class="tf-nav-inner">
       <a class="nav-brand" href="../index.html">
@@ -26,14 +28,113 @@
     </div>
   </nav>
 
-  <div class="soon-wrap">
-    <div class="soon-icon">🎯</div>
-    <div class="soon-title">Reflex Rush</div>
-    <span class="soon-badge">Coming Soon</span>
-    <p class="soon-desc">Pure reaction speed — tap the right target the instant it appears.</p>
-    <a class="back-btn" href="../index.html">← Back to ThinkFast</a>
-  </div>
+  <div class="rr-wrap">
 
-</div>
+    <!-- ══ PRE-PLAY ══ -->
+    <div id="rr-preplay">
+      <span class="rr-game-icon">🎯</span>
+      <div class="rr-game-name">Reflex Rush</div>
+      <div class="rr-game-sub">Reaction Speed</div>
+      <div class="rr-tagline">How fast are your reflexes?</div>
+      <div class="rr-best-row">
+        🏆 Best Score &nbsp;<span class="bv" id="rr-best">—</span>
+      </div>
+      <div class="rr-howto">
+        <p><span>🎯</span> Tap the target the instant it appears</p>
+        <p><span>⚡</span> Speed increases as your score grows</p>
+        <p><span>❌</span> 3 misses or timeouts ends the game</p>
+        <p><span>🏆</span> Hit all 10 targets to complete a round</p>
+      </div>
+      <button class="rr-cta-btn" id="rr-play-btn">🎯 Play Now</button>
+    </div>
+
+    <!-- ══ GAME ══ -->
+    <div id="rr-game" style="display:none">
+
+      <!-- header -->
+      <div class="rr-header">
+        <div class="rr-header-left">
+          <span class="rr-header-brand">ThinkFast</span>
+          <span class="rr-header-mode">Reflex Rush</span>
+        </div>
+        <div class="rr-score-badge" id="rr-score">Score: 0</div>
+      </div>
+
+      <!-- meta row -->
+      <div class="rr-meta-row">
+        <span class="rr-round-label" id="rr-round-label">0 / 10 hits</span>
+        <span class="rr-speed-badge slow" id="rr-speed-badge">Slow</span>
+      </div>
+
+      <!-- target arena -->
+      <div class="rr-arena" id="rr-arena">
+        <!-- get-ready overlay -->
+        <div class="rr-get-ready" id="rr-get-ready">
+          <div class="rr-ready-num">●</div>
+          <div class="rr-ready-lbl">Get Ready</div>
+        </div>
+        <!-- tappable target -->
+        <div class="rr-target" id="rr-target"></div>
+        <!-- circular countdown ring -->
+        <svg class="rr-arena-timer" viewBox="0 0 36 36">
+          <circle class="rr-timer-track" cx="18" cy="18" r="15.9"/>
+          <circle class="rr-timer-fill"  id="rr-timer-fill" cx="18" cy="18" r="15.9"
+                  style="stroke-dasharray:100;stroke-dashoffset:0"/>
+        </svg>
+      </div>
+
+      <!-- streak dots -->
+      <div class="rr-streak-row">
+        <div id="rr-streak-dots" style="display:flex;gap:6px;"></div>
+        <span class="rr-streak-lbl" id="rr-streak-lbl"></span>
+      </div>
+
+    </div><!-- /rr-game -->
+
+    <!-- ══ GAME OVER ══ -->
+    <div id="rr-gameover" style="display:none">
+      <span class="rr-go-emoji" id="rr-go-emoji">🎯</span>
+      <div class="rr-go-title">Round Complete</div>
+      <div class="rr-go-sub" id="rr-go-sub">Better luck next time!</div>
+      <div class="rr-divider"></div>
+      <div class="rr-scores-row">
+        <div class="rr-score-col">
+          <div class="rr-go-score-val" id="rr-final-score">0</div>
+          <div class="rr-go-label">Your Score</div>
+        </div>
+        <div style="width:1px;height:44px;background:rgba(255,255,255,0.08)"></div>
+        <div class="rr-score-col">
+          <div class="rr-go-best-val" id="rr-best-display">0</div>
+          <div class="rr-go-label">Best Score</div>
+        </div>
+      </div>
+      <div class="rr-go-msg" id="rr-go-msg">Nice try! 🎯</div>
+      <div class="rr-beat-best" id="rr-beat-best"></div>
+      <!-- stat row -->
+      <div class="rr-stats-row">
+        <div class="rr-stat-col">
+          <div class="rr-stat-val" id="rr-stat-avg">—</div>
+          <div class="rr-stat-lbl">Avg Reaction</div>
+        </div>
+        <div class="rr-stat-col">
+          <div class="rr-stat-val" id="rr-stat-acc">—</div>
+          <div class="rr-stat-lbl">Accuracy</div>
+        </div>
+        <div class="rr-stat-col">
+          <div class="rr-stat-val" id="rr-stat-miss">0</div>
+          <div class="rr-stat-lbl">Misses</div>
+        </div>
+      </div>
+      <div class="rr-divider"></div>
+      <button class="rr-cta-btn"   id="rr-restart-btn">🎯 Play Again</button>
+      <button class="rr-share-btn" id="rr-share-btn">🔗 Share Score</button>
+      <button class="ghost-btn"    id="rr-menu-btn">← Back to ThinkFast</button>
+    </div><!-- /rr-gameover -->
+
+  </div><!-- /rr-wrap -->
+</div><!-- /rr-app -->
+
+<div class="toast" id="toast"></div>
+<script type="module" src="../assets/games/reflex-rush.js"></script>
 </body>
 </html>

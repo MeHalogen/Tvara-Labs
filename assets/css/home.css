@@ -251,6 +251,7 @@
   padding: 3px 8px; border-radius: var(--r-sm);
 }
 .gc-pulse .meta-chip { color: #6366f1; border-color: rgba(99,102,241,0.2); background: rgba(99,102,241,0.08); }
+.gc-reflex-chip      { color: #22c55e; border-color: rgba(34,197,94,0.2);  background: rgba(34,197,94,0.08); }
 
 .card-play-btn {
   display: flex; align-items: center; gap: 5px;
@@ -264,6 +265,16 @@
 }
 .gc-pulse .card-play-btn:hover  { transform: translateY(-1px); box-shadow: 0 6px 22px rgba(99,102,241,0.6); }
 .gc-pulse .card-play-btn:active { transform: scale(0.95); }
+
+.gc-reflex-btn {
+  background: linear-gradient(135deg, #16a34a, #22c55e);
+  color: #fff; box-shadow: 0 4px 16px rgba(34,197,94,0.45);
+}
+.gc-reflex-btn:hover  { transform: translateY(-1px); box-shadow: 0 6px 22px rgba(34,197,94,0.6); }
+.gc-reflex-btn:active { transform: scale(0.95); }
+
+/* un-dim the live reflex card */
+.gc-reflex { opacity: 1; }
 
 .locked-btn {
   font-size: 0.75rem; font-weight: 600; color: #334155;
