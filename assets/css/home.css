@@ -103,11 +103,18 @@
   transform: scale(0.96);
 }
 
+.landing-microcopy {
+  margin-top: 16px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #475569;
+  letter-spacing: 0.2px;
+}
 .landing-footer {
-  margin-top: 40px;
+  margin-top: 28px;
   font-size: 0.7rem;
   font-weight: 600;
-  color: #1e293b;
+  color: #475569;
   letter-spacing: 0.5px;
 }
 
@@ -218,6 +225,16 @@
   transition: background 0.15s, color 0.15s;
 }
 .hero-cta-ghost:hover { background: rgba(255,255,255,0.08); color: #94a3b8; }
+
+/* ── Hero microcopy ── */
+.hero-microcopy {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #475569;
+  margin-top: 12px;
+  margin-bottom: 0;
+  letter-spacing: 0.2px;
+}
 
 /* ── Stats row ── */
 .hero-stats { display: flex; justify-content: center; gap: 32px; }

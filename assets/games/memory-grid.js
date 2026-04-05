@@ -335,7 +335,7 @@ function init() {
   document.getElementById('mg-restart-btn').addEventListener('click', launchGame);
   document.getElementById('mg-share-btn').addEventListener('click', shareScore);
   document.getElementById('mg-submit-btn').addEventListener('click', ()=>{ if(state.phase==='recall') submitRecall(); });
-  document.getElementById('mg-menu-btn').addEventListener('click', ()=>{ location.href='../index.html'; });
+  document.getElementById('mg-menu-btn').addEventListener('click', ()=>{ location.href='/'; });
 }
 
 document.addEventListener('DOMContentLoaded', init);
