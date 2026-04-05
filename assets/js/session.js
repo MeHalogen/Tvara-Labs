@@ -112,10 +112,13 @@ function scrambleOptions(ch) {
 ───────────────────────────────────────── */
 function showOverlay() {
   overlay.classList.remove('so-hidden');
-  // Force reflow before adding visible so transition fires
-  overlay.getBoundingClientRect();
-  overlay.classList.add('so-visible');
-  document.body.style.overflow = 'hidden';
+  // Double rAF: ensure element is in the paint tree before transition fires
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      overlay.classList.add('so-visible');
+      document.body.style.overflow = 'hidden';
+    });
+  });
 }
 
 function hideOverlay() {
