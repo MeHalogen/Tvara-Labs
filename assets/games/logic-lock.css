@@ -258,6 +258,18 @@
    Game-over screen
    ════════════════════════════════ */
 #ll-gameover { text-align: center; animation: fadeUp 0.35s ease; }
+#ll-gameover.win .ll-go-emoji { filter: drop-shadow(0 0 24px rgba(34,197,94,0.6)); }
+#ll-gameover.win .ll-go-title { color: #86efac; }
+#ll-gameover.win .ll-go-score-val {
+  background: linear-gradient(135deg, #22c55e, #86efac);
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+}
+#ll-gameover.win .ll-go-msg {
+  background: rgba(34,197,94,0.1); border-color: rgba(34,197,94,0.3); color: #86efac;
+}
+#ll-gameover.win .ll-code-digit {
+  background: rgba(34,197,94,0.15); border-color: rgba(34,197,94,0.4);
+}
 
 .ll-go-emoji { font-size: 3.6rem; margin-bottom: 7px; display: block; }
 .ll-go-title { font-size: 1.6rem; font-weight: 800; color: #f1f5f9; margin-bottom: 2px; }

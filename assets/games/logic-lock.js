@@ -307,6 +307,11 @@ function renderGameOver(won, score) {
     ? `Solved in ${state.attempts} attempt${state.attempts > 1 ? 's' : ''}!`
     : `The code was ${state.secret.join(' - ')}.`;
 
+  // toggle win/lose class for colour theming
+  const goEl = document.getElementById('ll-gameover');
+  goEl.classList.toggle('win', won);
+  goEl.classList.toggle('lose', !won);
+
   // reveal the code
   const revealEl = document.getElementById('ll-code-reveal');
   revealEl.innerHTML = '';

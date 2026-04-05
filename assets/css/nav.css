@@ -1,5 +1,18 @@
-/* ══════════════════════════════════════════
-   Tvara — Shared Nav Component
+/* ═══════════════════════════════.nav-logo {
+  height: 48px;
+  width: 48px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  overflow: hidden;
+  border-radius: 10px;
+}
+.nav-logo-img {
+  height: 350%;
+  width: auto;
+  object-fit: cover;
+  object-position: 15% center;
+  display: block;
+}Tvara — Shared Nav Component
    Used by: index.html + all games/*.html
    ══════════════════════════════════════════ */
 
@@ -15,9 +28,8 @@
 }
 
 .tf-nav-inner {
-  max-width: 1160px;
-  margin: 0 auto;
-  padding: 16px 20px;
+  width: 100%;
+  padding: 6px 40px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -28,22 +40,29 @@
 .nav-brand {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   text-decoration: none;
   flex-shrink: 0;
 }
 .nav-logo {
-  width: 32px; height: 32px;
-  background: linear-gradient(135deg, var(--indigo), #8b5cf6);
-  border-radius: var(--r-sm);
+  height: 56px;
+  width: 56px;
   display: flex; align-items: center; justify-content: center;
-  font-size: 1rem;
-  box-shadow: 0 4px 14px rgba(99,102,241,0.45);
+  flex-shrink: 0;
+  overflow: hidden;
+  border-radius: 12px;
+}
+.nav-logo-img {
+  height: 200%;
+  width: 200%;
+  object-fit: cover;
+  object-position: center center;
+  display: block;
 }
 .nav-name {
-  font-size: 1.1rem;
+  font-size: 1.35rem;
   font-weight: 800;
-  letter-spacing: -0.3px;
+  letter-spacing: -0.5px;
   background: linear-gradient(135deg, var(--purple), var(--blue));
   -webkit-background-clip: text;
   background-clip: text;
@@ -75,21 +94,21 @@
 .nav-link {
   font-size: 0.82rem;
   font-weight: 600;
-  color: #475569;
+  color: #94a3b8;
   text-decoration: none;
   transition: color 0.15s;
 }
-.nav-link:hover { color: #94a3b8; }
+.nav-link:hover { color: #e2e8f0; }
 
 /* ── Right-side tag/badge ── */
 .nav-tag {
   font-size: 0.7rem;
   font-weight: 700;
-  color: #334155;
+  color: #94a3b8;
   letter-spacing: 1px;
   text-transform: uppercase;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.07);
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
   padding: 4px 10px;
   border-radius: var(--r-full);
   flex-shrink: 0;
@@ -97,12 +116,12 @@
 
 /* ── Responsive ── */
 @media (min-width: 640px) {
-  .tf-nav-inner  { padding: 18px 32px; }
+  .tf-nav-inner  { padding: 18px 40px; }
   .nav-links { display: flex; }
 }
 @media (min-width: 1024px) {
-  .tf-nav-inner  { padding: 18px 48px; }
+  .tf-nav-inner  { padding: 18px 56px; }
 }
 @media (max-width: 480px) {
-  .tf-nav-inner  { padding: 14px 16px; }
+  .tf-nav-inner  { padding: 14px 20px; }
 }

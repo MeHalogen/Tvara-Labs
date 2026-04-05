@@ -2,11 +2,14 @@
    Tvara — Home Page Logic
    ══════════════════════════════════════════ */
 
-import { initCarousel } from './carousel.js';
+import { initTryARound } from './try-a-round.js';
 
 const LS_PP = 'tf_pp_best';
 const LS_RR = 'tf_rr_best';
 const LS_LL = 'tf_ll_best';
+const LS_MG = 'tf_mg_best';
+const LS_SM = 'tf_sm_best';
+const LS_WS = 'tf_ws_best';
 
 function getBest(key) {
   return parseInt(localStorage.getItem(key) || '0', 10);
@@ -33,11 +36,46 @@ function refreshHomeBests() {
   const llChip = document.getElementById('home-ll-chip');
   if (llEl)   llEl.textContent = llBest > 0 ? llBest : '—';
   if (llChip && llBest > 0) llChip.classList.add('show');
+
+  // Memory Grid
+  const mgBest = getBest(LS_MG);
+  const mgEl   = document.getElementById('home-mg-best');
+  const mgChip = document.getElementById('home-mg-chip');
+  if (mgEl)   mgEl.textContent = mgBest > 0 ? mgBest : '—';
+  if (mgChip && mgBest > 0) mgChip.classList.add('show');
+
+  // Speed Math
+  const smBest = getBest(LS_SM);
+  const smEl   = document.getElementById('home-sm-best');
+  const smChip = document.getElementById('home-sm-chip');
+  if (smEl)   smEl.textContent = smBest > 0 ? smBest : '—';
+  if (smChip && smBest > 0) smChip.classList.add('show');
+
+  // Word Scramble
+  const wsBest = getBest(LS_WS);
+  const wsEl   = document.getElementById('home-ws-best');
+  const wsChip = document.getElementById('home-ws-chip');
+  if (wsEl)   wsEl.textContent = wsBest > 0 ? wsBest : '—';
+  if (wsChip && wsBest > 0) wsChip.classList.add('show');
 }
 
 function init() {
+  // ── Landing page enter button ──
+  const landingView = document.getElementById('landing-view');
+  const homeView    = document.getElementById('home-view');
+  const enterBtn    = document.getElementById('landing-enter-btn');
+
+  if (enterBtn && landingView && homeView) {
+    enterBtn.addEventListener('click', () => {
+      landingView.classList.add('landing-exit');
+      setTimeout(() => {
+        landingView.style.display = 'none';
+        homeView.classList.remove('home-hidden');
+      }, 600);
+    });
+  }
+
   refreshHomeBests();
-  initCarousel('games-carousel', 'carousel-dots');
 
   // Hero CTA → Pattern Pulse
   const heroBtn = document.getElementById('hero-play-btn');
@@ -54,6 +92,21 @@ function init() {
   // Logic Lock card
   const logicCard = document.getElementById('card-logic');
   if (logicCard) logicCard.addEventListener('click', () => { location.href = 'games/logic-lock.html'; });
+
+  // Memory Grid card
+  const memoryCard = document.getElementById('card-memory');
+  if (memoryCard) memoryCard.addEventListener('click', () => { location.href = 'games/memory-grid.html'; });
+
+  // Speed Math card
+  const speedMathCard = document.getElementById('card-speedmath');
+  if (speedMathCard) speedMathCard.addEventListener('click', () => { location.href = 'games/speed-math.html'; });
+
+  // Word Scramble card
+  const wsCard = document.getElementById('card-wordscramble');
+  if (wsCard) wsCard.addEventListener('click', () => { location.href = 'games/word-scramble.html'; });
+
+  // Try a Round — homepage preview
+  initTryARound();
 }
 
 document.addEventListener('DOMContentLoaded', init);

@@ -5,6 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <meta name="theme-color" content="#0a0d1a"/>
   <title>Tvara — Train your speed for competitive exams.</title>
+  <!-- Favicons & PWA -->
+  <link rel="icon" type="image/x-icon" href="assets/favicon.ico"/>
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png"/>
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png"/>
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png"/>
+  <link rel="manifest" href="assets/site.webmanifest"/>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="assets/css/base.css"/>
   <link rel="stylesheet" href="assets/css/nav.css"/>
@@ -12,13 +18,34 @@
 </head>
 <body>
 
-<div id="home-view">
+<!-- ═══════════════════════════════════════
+     LANDING / SPLASH SCREEN
+     ═══════════════════════════════════════ -->
+<div id="landing-view">
+  <div class="landing-inner">
+    <div class="landing-logo">
+      <img src="assets/favicon2.png" alt="Tvara" class="landing-logo-img"/>
+    </div>
+    <h1 class="landing-title">Tvara</h1>
+    <p class="landing-subtitle">Sharpen your mental speed.</p>
+    <p class="landing-desc">Structured drills that push your pattern recognition, reaction time, and logical thinking — faster, sharper, every day.</p>
+    <button class="landing-enter-btn" id="landing-enter-btn">Click to Enter&nbsp;→</button>
+    <div class="landing-footer">by Tvara Labs &nbsp;·&nbsp; Beta</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     MAIN APP (hidden until enter)
+     ═══════════════════════════════════════ -->
+<div id="home-view" class="home-hidden">
 
   <!-- ── Nav ── -->
   <nav class="tf-nav">
     <div class="tf-nav-inner">
       <a class="nav-brand" href="index.html">
-        <div class="nav-logo">⚡</div>
+        <div class="nav-logo">
+          <img src="assets/favicon2.png" alt="Tvara logo" class="nav-logo-img"/>
+        </div>
         <span class="nav-name">Tvara</span>
       </a>
       <nav class="nav-links">
@@ -35,9 +62,9 @@
 
     <!-- Hero -->
     <div class="home-hero">
-      <div class="hero-eyebrow">Built for CAT · Aptitude · Reasoning</div>
-      <h1 class="hero-headline">Train your speed<br><em>for competitive exams.</em></h1>
-      <p class="hero-tagline">Sharpen your thinking under pressure. Structured drills for pattern recognition, reaction speed, and logical deduction.</p>
+      <div class="hero-eyebrow">Pattern Recognition · Reaction Speed · Logical Thinking</div>
+      <h1 class="hero-headline">Train your mind.<br><em>Get faster every day.</em></h1>
+      <p class="hero-tagline">Structured drills designed to push your mental speed — sharper reactions, quicker patterns, stronger logic.</p>
       <div class="hero-cta-row">
         <button class="hero-cta-btn" id="hero-play-btn">⚡ Begin Training</button>
         <button class="hero-cta-ghost">Learn more ↓</button>
@@ -63,11 +90,10 @@
     <!-- Training Modules section -->
     <div class="section-header">
       <span class="section-title">Training Modules</span>
-      <span class="section-count">3 active · 1 coming soon</span>
+      <span class="section-count">6 active</span>
     </div>
 
-    <div class="carousel-wrap">
-      <div class="carousel" id="games-carousel">
+    <div class="games-grid">
 
         <!-- Pattern Pulse — ACTIVE -->
         <div class="game-card gc-pulse" id="card-pulse">
@@ -129,42 +155,103 @@
           </div>
         </div>
 
-        <!-- Memory Grid — Coming Soon -->
-        <div class="game-card gc-memory">
+        <!-- Memory Grid — ACTIVE -->
+        <div class="game-card gc-memory" id="card-memory">
           <div class="card-top">
             <span class="card-icon">🧠</span>
-            <span class="card-status status-soon">Soon</span>
+            <span class="card-status status-live">Active</span>
           </div>
           <div class="card-body">
             <div class="card-name">Memory Grid</div>
-            <div class="card-desc">Memorise an expanding grid and recall it perfectly under time pressure.</div>
+            <div class="card-desc">Memorise an expanding grid and recall it perfectly under the clock.</div>
           </div>
           <div class="card-footer">
             <div class="card-meta">
-              <span class="meta-chip">Memory</span>
-              <span class="meta-chip">Grid</span>
+              <span class="meta-chip gc-memory-chip">Memory</span>
+              <span class="meta-chip gc-memory-chip">8 rounds</span>
+              <span class="card-best" id="home-mg-chip">🏆 <span id="home-mg-best">—</span></span>
             </div>
-            <span class="locked-btn">Coming Soon</span>
+            <button class="card-play-btn gc-memory-btn">Train ›</button>
           </div>
         </div>
 
-      </div>
-      <div class="carousel-dots" id="carousel-dots"></div>
+        <!-- Speed Math — ACTIVE -->
+        <div class="game-card gc-speedmath" id="card-speedmath">
+          <div class="card-top">
+            <span class="card-icon">🔢</span>
+            <span class="card-status status-live">Active</span>
+          </div>
+          <div class="card-body">
+            <div class="card-name">Speed Math</div>
+            <div class="card-desc">Chain correct answers for a multiplier. One wrong answer ends your run.</div>
+          </div>
+          <div class="card-footer">
+            <div class="card-meta">
+              <span class="meta-chip gc-speedmath-chip">Arithmetic</span>
+              <span class="meta-chip gc-speedmath-chip">Streak ×8</span>
+              <span class="card-best" id="home-sm-chip">🏆 <span id="home-sm-best">—</span></span>
+            </div>
+            <button class="card-play-btn gc-speedmath-btn">Train ›</button>
+          </div>
+        </div>
+
+        <!-- Word Scramble — ACTIVE -->
+        <div class="game-card gc-wordscramble" id="card-wordscramble">
+          <div class="card-top">
+            <span class="card-icon">🔤</span>
+            <span class="card-status status-live">Active</span>
+          </div>
+          <div class="card-body">
+            <div class="card-name">Word Scramble</div>
+            <div class="card-desc">Tap scrambled letters to spell the word before time runs out.</div>
+          </div>
+          <div class="card-footer">
+            <div class="card-meta">
+              <span class="meta-chip gc-wordscramble-chip">Lexical</span>
+              <span class="meta-chip gc-wordscramble-chip">3 lives</span>
+              <span class="card-best" id="home-ws-chip">🏆 <span id="home-ws-best">—</span></span>
+            </div>
+            <button class="card-play-btn gc-wordscramble-btn">Train ›</button>
+          </div>
+        </div>
+
     </div>
 
-    <!-- Feature strip -->
-    <div class="feature-strip">
-      <div class="feat">
-        <span class="feat-icon">⚡</span>
-        <div class="feat-title">Speed under<br>Pressure</div>
+    <!-- ═══════════════════════════════════════
+         LIVE THINKING MOMENT — auto-play loop
+         ═══════════════════════════════════════ -->
+    <section class="ltm-section" id="live-thinking-moment">
+
+      <div class="ltm-label">Live Thinking Moment</div>
+
+      <!-- Sequence stage -->
+      <div class="ltm-stage">
+        <div class="ltm-tokens" id="ltm-tokens"></div>
       </div>
-      <div class="feat">
-        <span class="feat-icon">📈</span>
-        <div class="feat-title">Adaptive<br>Difficulty</div>
+
+      <!-- Prompt + CTA (hidden until answer revealed) -->
+      <div class="ltm-reveal" id="ltm-reveal">
+        <p class="ltm-prompt" id="ltm-prompt">Could you predict it before it appeared?</p>
+        <a class="ltm-cta" href="games/pattern-pulse.html">Train your speed →</a>
       </div>
-      <div class="feat">
-        <span class="feat-icon">🏆</span>
-        <div class="feat-title">Personal Best<br>Tracking</div>
+
+    </section>
+
+    <!-- Stat bar -->
+    <div class="stat-bar">
+      <div class="stat-bar-item">
+        <span class="stat-bar-val">6</span>
+        <span class="stat-bar-key">Training modules</span>
+      </div>
+      <div class="stat-bar-div"></div>
+      <div class="stat-bar-item">
+        <span class="stat-bar-val">~90s</span>
+        <span class="stat-bar-key">Average session</span>
+      </div>
+      <div class="stat-bar-div"></div>
+      <div class="stat-bar-item">
+        <span class="stat-bar-val">Adaptive</span>
+        <span class="stat-bar-key">Difficulty scaling</span>
       </div>
     </div>
 

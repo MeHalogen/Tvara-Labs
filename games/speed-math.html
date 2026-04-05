@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="theme-color" content="#0a0d1a"/>
+  <title>Speed Math — Tvara</title>
+  <link rel="icon" type="image/x-icon" href="../assets/favicon.ico"/>
+  <link rel="icon" type="image/png" sizes="16x16" href="../assets/favicon-16x16.png"/>
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32x32.png"/>
+  <link rel="apple-touch-icon" sizes="180x180" href="../assets/apple-touch-icon.png"/>
+  <link rel="manifest" href="../assets/site.webmanifest"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../assets/css/base.css"/>
+  <link rel="stylesheet" href="../assets/css/nav.css"/>
+  <link rel="stylesheet" href="../assets/games/game-shell.css"/>
+  <link rel="stylesheet" href="../assets/games/speed-math.css"/>
+</head>
+<body>
+<div id="sm-app">
+
+  <!-- ── Nav ── -->
+  <nav class="tf-nav">
+    <div class="tf-nav-inner">
+      <a class="nav-brand" href="../index.html">
+        <div class="nav-logo">
+          <img src="../assets/favicon2.png" alt="Tvara logo" class="nav-logo-img"/>
+        </div>
+        <span class="nav-name">Tvara</span>
+      </a>
+      <div class="nav-breadcrumb">
+        <span class="nav-breadcrumb-sep">/</span>
+        <span class="nav-breadcrumb-page">Speed Math</span>
+      </div>
+    </div>
+  </nav>
+
+  <div class="sm-wrap">
+
+    <!-- ══ PRE-PLAY ══ -->
+    <div id="sm-preplay">
+      <span class="sm-game-icon">🔢</span>
+      <div class="sm-game-name">Speed Math</div>
+      <div class="sm-game-sub">Arithmetic Sprint</div>
+      <div class="sm-tagline">Solve as fast as you can. Chain a streak, multiply your score. One wrong answer ends it all.</div>
+      <div class="sm-best-row">🏆 Best &nbsp;<span class="bv" id="sm-best">—</span></div>
+      <div class="sm-howto">
+        <p><span>🔢</span> Answer each equation before the timer hits zero</p>
+        <p><span>🔥</span> Streak × multiplier — longer chains = bigger points</p>
+        <p><span>💣</span> One wrong answer ends your run immediately</p>
+        <p><span>⚡</span> Problems get harder and faster as you progress</p>
+      </div>
+      <button class="sm-cta-btn" id="sm-play-btn">⚡ Begin Sprint</button>
+    </div>
+
+    <!-- ══ GAME ══ -->
+    <div id="sm-game" style="display:none">
+
+      <div class="sm-header">
+        <div class="sm-score-block">
+          <div class="sm-score-val" id="sm-score">0</div>
+          <div class="sm-score-lbl">Score</div>
+        </div>
+        <div class="sm-streak-block" id="sm-streak-block">
+          <div class="sm-streak-val" id="sm-streak">×1</div>
+          <div class="sm-streak-lbl">Multiplier</div>
+        </div>
+        <div class="sm-question-block">
+          <div class="sm-q-val" id="sm-q-count">Q1</div>
+          <div class="sm-score-lbl">Question</div>
+        </div>
+      </div>
+
+      <!-- Timer bar -->
+      <div class="sm-timer-wrap">
+        <div class="sm-timer-bar" id="sm-timer-bar"></div>
+      </div>
+
+      <!-- Equation -->
+      <div class="sm-equation-wrap" id="sm-equation-wrap">
+        <div class="sm-equation" id="sm-equation">?</div>
+        <div class="sm-equals">=</div>
+        <div class="sm-answer-display" id="sm-answer-display">_</div>
+      </div>
+
+      <!-- Flash feedback -->
+      <div class="sm-flash" id="sm-flash"></div>
+
+      <!-- Numpad -->
+      <div class="sm-numpad" id="sm-numpad">
+        <button class="sm-key" data-val="7">7</button>
+        <button class="sm-key" data-val="8">8</button>
+        <button class="sm-key" data-val="9">9</button>
+        <button class="sm-key" data-val="4">4</button>
+        <button class="sm-key" data-val="5">5</button>
+        <button class="sm-key" data-val="6">6</button>
+        <button class="sm-key" data-val="1">1</button>
+        <button class="sm-key" data-val="2">2</button>
+        <button class="sm-key" data-val="3">3</button>
+        <button class="sm-key sm-key-neg" data-val="neg">±</button>
+        <button class="sm-key" data-val="0">0</button>
+        <button class="sm-key sm-key-del" data-val="del">⌫</button>
+      </div>
+
+      <button class="sm-submit-btn" id="sm-submit-btn">Submit ↵</button>
+
+    </div><!-- /sm-game -->
+
+    <!-- ══ GAME OVER ══ -->
+    <div id="sm-gameover" style="display:none">
+      <div class="sm-go-emoji" id="sm-go-emoji">💥</div>
+      <div class="sm-go-title" id="sm-go-title">Game Over</div>
+      <div class="sm-go-sub" id="sm-go-sub">Better luck next time</div>
+
+      <div class="sm-go-stats">
+        <div class="sm-go-stat">
+          <div class="sm-go-stat-val" id="sm-go-score">0</div>
+          <div class="sm-go-stat-lbl">Score</div>
+        </div>
+        <div class="sm-go-stat">
+          <div class="sm-go-stat-val" id="sm-go-questions">0</div>
+          <div class="sm-go-stat-lbl">Answered</div>
+        </div>
+        <div class="sm-go-stat">
+          <div class="sm-go-stat-val" id="sm-go-best-streak">0</div>
+          <div class="sm-go-stat-lbl">Best Streak</div>
+        </div>
+      </div>
+
+      <div class="sm-go-best-row" id="sm-go-best-row">
+        🏆 Personal Best &nbsp;<span id="sm-go-best">—</span>
+      </div>
+      <div class="sm-go-new-best" id="sm-go-new-best" style="display:none">🎉 New Personal Best!</div>
+
+      <button class="sm-cta-btn" id="sm-restart-btn">↺ Play Again</button>
+      <button class="sm-ghost-btn" id="sm-menu-btn">← Back to Menu</button>
+    </div>
+
+  </div><!-- /sm-wrap -->
+</div><!-- /sm-app -->
+
+<div class="toast" id="toast"></div>
+<script type="module" src="../assets/games/speed-math.js"></script>
+</body>
+</html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="theme-color" content="#0a0d1a"/>
+  <title>Word Scramble — Tvara</title>
+  <link rel="icon" type="image/x-icon" href="../assets/favicon.ico"/>
+  <link rel="icon" type="image/png" sizes="16x16" href="../assets/favicon-16x16.png"/>
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32x32.png"/>
+  <link rel="apple-touch-icon" sizes="180x180" href="../assets/apple-touch-icon.png"/>
+  <link rel="manifest" href="../assets/site.webmanifest"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../assets/css/base.css"/>
+  <link rel="stylesheet" href="../assets/css/nav.css"/>
+  <link rel="stylesheet" href="../assets/games/game-shell.css"/>
+  <link rel="stylesheet" href="../assets/games/word-scramble.css"/>
+</head>
+<body>
+<div id="ws-app">
+
+  <!-- ── Nav ── -->
+  <nav class="tf-nav">
+    <div class="tf-nav-inner">
+      <a class="nav-brand" href="../index.html">
+        <div class="nav-logo">
+          <img src="../assets/favicon2.png" alt="Tvara logo" class="nav-logo-img"/>
+        </div>
+        <span class="nav-name">Tvara</span>
+      </a>
+      <div class="nav-breadcrumb">
+        <span class="nav-breadcrumb-sep">/</span>
+        <span class="nav-breadcrumb-page">Word Scramble</span>
+      </div>
+    </div>
+  </nav>
+
+  <div class="ws-wrap">
+
+    <!-- ══ PRE-PLAY ══ -->
+    <div id="ws-preplay">
+      <span class="ws-game-icon">🔤</span>
+      <div class="ws-game-name">Word Scramble</div>
+      <div class="ws-game-sub">Lexical Speed</div>
+      <div class="ws-tagline">Letters are shuffled. Tap them in order to spell the word — before the clock runs out.</div>
+      <div class="ws-best-row">🏆 Best &nbsp;<span class="bv" id="ws-best">—</span></div>
+      <div class="ws-howto">
+        <p><span>🔤</span> Tap scrambled letters to spell the hidden word</p>
+        <p><span>⚡</span> Timer per word gets faster as you progress</p>
+        <p><span>💡</span> Use the Hint (costs 5 pts) if you're truly stuck</p>
+        <p><span>💀</span> 3 timeouts ends the session</p>
+      </div>
+      <button class="ws-cta-btn" id="ws-play-btn">⚡ Begin Sprint</button>
+    </div>
+
+    <!-- ══ GAME ══ -->
+    <div id="ws-game" style="display:none">
+
+      <div class="ws-header">
+        <div class="ws-score-block">
+          <div class="ws-score-val" id="ws-score">0</div>
+          <div class="ws-score-lbl">Score</div>
+        </div>
+        <div class="ws-streak-block">
+          <div class="ws-streak-val" id="ws-streak">0</div>
+          <div class="ws-score-lbl">Streak</div>
+        </div>
+        <div class="ws-lives-block">
+          <div class="ws-lives" id="ws-lives">❤️❤️❤️</div>
+          <div class="ws-score-lbl">Lives</div>
+        </div>
+      </div>
+
+      <!-- Timer bar -->
+      <div class="ws-timer-wrap">
+        <div class="ws-timer-bar" id="ws-timer-bar"></div>
+      </div>
+
+      <!-- Category hint -->
+      <div class="ws-category" id="ws-category">Category</div>
+
+      <!-- Answer display (letters tapped so far) -->
+      <div class="ws-answer-row" id="ws-answer-row"></div>
+
+      <!-- Scrambled letter tiles -->
+      <div class="ws-tiles" id="ws-tiles"></div>
+
+      <!-- Controls -->
+      <div class="ws-controls">
+        <button class="ws-clear-btn" id="ws-clear-btn">Clear</button>
+        <button class="ws-hint-btn"  id="ws-hint-btn">💡 Hint (−5)</button>
+      </div>
+
+    </div><!-- /ws-game -->
+
+    <!-- ══ GAME OVER ══ -->
+    <div id="ws-gameover" style="display:none">
+      <div class="ws-go-emoji" id="ws-go-emoji">🔤</div>
+      <div class="ws-go-title" id="ws-go-title">Session Complete</div>
+      <div class="ws-go-sub"   id="ws-go-sub">—</div>
+
+      <div class="ws-go-stats">
+        <div class="ws-go-stat">
+          <div class="ws-go-stat-val" id="ws-go-score">0</div>
+          <div class="ws-go-stat-lbl">Score</div>
+        </div>
+        <div class="ws-go-stat">
+          <div class="ws-go-stat-val" id="ws-go-solved">0</div>
+          <div class="ws-go-stat-lbl">Solved</div>
+        </div>
+        <div class="ws-go-stat">
+          <div class="ws-go-stat-val" id="ws-go-best-streak">0</div>
+          <div class="ws-go-stat-lbl">Best Streak</div>
+        </div>
+      </div>
+
+      <div class="ws-go-best-row">
+        🏆 Personal Best &nbsp;<span id="ws-go-best">—</span>
+      </div>
+      <div class="ws-go-new-best" id="ws-go-new-best" style="display:none">🎉 New Personal Best!</div>
+
+      <button class="ws-cta-btn" id="ws-restart-btn">↺ Play Again</button>
+      <button class="ws-ghost-btn" id="ws-menu-btn">← Back to Menu</button>
+    </div>
+
+  </div><!-- /ws-wrap -->
+</div><!-- /ws-app -->
+
+<div class="toast" id="toast"></div>
+<script type="module" src="../assets/games/word-scramble.js"></script>
+</body>
+</html>

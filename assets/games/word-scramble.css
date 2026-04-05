@@ -1,0 +1,232 @@
+/* ══════════════════════════════════════════
+   Tvara — Word Scramble Styles
+   ══════════════════════════════════════════ */
+
+#ws-app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.ws-wrap {
+  width: 100%;
+  max-width: 440px;
+  padding: 24px 16px 48px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* ════════════════════════════════
+   Pre-play
+   ════════════════════════════════ */
+#ws-preplay {
+  text-align: center;
+  animation: fadeUp 0.4s ease;
+}
+.ws-game-icon  { font-size: 3.8rem; display: block; margin-bottom: 10px; animation: pulse-icon 2.5s ease-in-out infinite; }
+.ws-game-name  { font-size: 1.7rem; font-weight: 800; color: #f1f5f9; letter-spacing: -0.5px; }
+.ws-game-sub   { font-size: 0.78rem; font-weight: 700; color: #10b981; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 10px; }
+.ws-tagline    { font-size: 0.92rem; color: #64748b; line-height: 1.55; margin-bottom: 18px; }
+.ws-best-row   { font-size: 0.82rem; font-weight: 700; color: #fcd34d; margin-bottom: 20px; }
+.ws-best-row .bv { color: #f1f5f9; }
+
+.ws-howto {
+  background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07);
+  border-radius: var(--r-lg); padding: 16px 18px; margin-bottom: 22px; text-align: left;
+}
+.ws-howto p {
+  display: flex; gap: 10px; align-items: flex-start;
+  font-size: 0.83rem; color: #475569; line-height: 1.5; margin-bottom: 8px;
+}
+.ws-howto p:last-child { margin-bottom: 0; }
+
+.ws-cta-btn {
+  width: 100%; padding: 15px;
+  font-size: 1rem; font-weight: 700; font-family: 'Inter', sans-serif;
+  background: linear-gradient(135deg, #059669, #10b981);
+  color: #fff; border: none; border-radius: var(--r-lg);
+  cursor: pointer; transition: transform 0.15s, box-shadow 0.15s;
+  box-shadow: 0 6px 24px rgba(16,185,129,0.4);
+}
+.ws-cta-btn:hover  { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(16,185,129,0.55); }
+.ws-cta-btn:active { transform: scale(0.97); }
+
+/* ════════════════════════════════
+   Game screen
+   ════════════════════════════════ */
+#ws-game { animation: fadeUp 0.3s ease; }
+
+.ws-header {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+.ws-score-block,
+.ws-streak-block,
+.ws-lives-block {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: var(--r-lg);
+  padding: 10px 8px;
+  text-align: center;
+}
+.ws-score-val  { font-size: 1.5rem; font-weight: 800; color: #f1f5f9; line-height: 1; }
+.ws-streak-val { font-size: 1.5rem; font-weight: 800; color: #10b981; line-height: 1; }
+.ws-lives      { font-size: 1rem; line-height: 1.4; letter-spacing: 2px; }
+.ws-score-lbl  { font-size: 0.68rem; font-weight: 700; color: #334155; text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
+
+/* Timer bar */
+.ws-timer-wrap {
+  height: 6px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 3px;
+  margin-bottom: 16px;
+  overflow: hidden;
+}
+.ws-timer-bar {
+  height: 100%;
+  border-radius: 3px;
+  background: linear-gradient(90deg, #10b981, #3b82f6);
+  transition: width 0.05s linear;
+}
+.ws-timer-bar.warning { background: linear-gradient(90deg, #f59e0b, #ef4444); }
+
+/* Category */
+.ws-category {
+  text-align: center;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #10b981;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 18px;
+}
+
+/* Answer row — blank slots */
+.ws-answer-row {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  min-height: 56px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+.ws-answer-slot {
+  width: 44px; height: 52px;
+  border-radius: var(--r-md);
+  border: 2px solid rgba(16,185,129,0.3);
+  background: rgba(16,185,129,0.06);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.4rem; font-weight: 800; color: #10b981;
+  cursor: pointer;
+  transition: background 0.1s, transform 0.1s;
+  user-select: none;
+}
+.ws-answer-slot:not(:empty):hover {
+  background: rgba(239,68,68,0.08);
+  border-color: rgba(239,68,68,0.3);
+}
+.ws-answer-slot.filled { border-color: rgba(16,185,129,0.6); }
+.ws-answer-slot.correct { background: rgba(34,197,94,0.2) !important; border-color: #22c55e !important; }
+.ws-answer-slot.wrong   { background: rgba(239,68,68,0.2) !important; border-color: #ef4444 !important; }
+
+/* Scrambled letter tiles */
+.ws-tiles {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+  min-height: 64px;
+}
+.ws-tile {
+  width: 52px; height: 58px;
+  border-radius: var(--r-lg);
+  background: rgba(255,255,255,0.06);
+  border: 1.5px solid rgba(255,255,255,0.1);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.5rem; font-weight: 800; color: #f1f5f9;
+  cursor: pointer;
+  transition: background 0.1s, transform 0.1s, opacity 0.15s;
+  user-select: none;
+  animation: tileIn 0.25s ease both;
+}
+.ws-tile:hover  { background: rgba(255,255,255,0.12); transform: translateY(-3px); }
+.ws-tile:active { transform: scale(0.92); }
+.ws-tile.used   { opacity: 0; pointer-events: none; transform: scale(0.8); }
+
+@keyframes tileIn {
+  from { opacity: 0; transform: translateY(12px) scale(0.85); }
+  to   { opacity: 1; transform: translateY(0)    scale(1); }
+}
+
+/* Controls */
+.ws-controls {
+  display: flex;
+  gap: 10px;
+}
+.ws-clear-btn,
+.ws-hint-btn {
+  flex: 1; padding: 12px;
+  font-size: 0.88rem; font-weight: 700; font-family: 'Inter', sans-serif;
+  border-radius: var(--r-md); cursor: pointer;
+  transition: background 0.15s, transform 0.1s;
+}
+.ws-clear-btn {
+  background: rgba(239,68,68,0.1);
+  border: 1.5px solid rgba(239,68,68,0.25);
+  color: #f87171;
+}
+.ws-clear-btn:hover  { background: rgba(239,68,68,0.2); }
+.ws-clear-btn:active { transform: scale(0.96); }
+
+.ws-hint-btn {
+  background: rgba(245,158,11,0.1);
+  border: 1.5px solid rgba(245,158,11,0.25);
+  color: #fbbf24;
+}
+.ws-hint-btn:hover  { background: rgba(245,158,11,0.2); }
+.ws-hint-btn:active { transform: scale(0.96); }
+.ws-hint-btn:disabled { opacity: 0.4; cursor: default; }
+
+/* ════════════════════════════════
+   Game over
+   ════════════════════════════════ */
+#ws-gameover {
+  text-align: center;
+  animation: fadeUp 0.4s ease;
+}
+.ws-go-emoji  { font-size: 3.5rem; margin-bottom: 12px; display: block; }
+.ws-go-title  { font-size: 1.6rem; font-weight: 800; color: #f1f5f9; margin-bottom: 6px; }
+.ws-go-sub    { font-size: 0.9rem; color: #64748b; margin-bottom: 24px; }
+
+.ws-go-stats {
+  display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-bottom: 20px;
+}
+.ws-go-stat {
+  background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07);
+  border-radius: var(--r-lg); padding: 14px 8px; text-align: center;
+}
+.ws-go-stat-val { font-size: 1.6rem; font-weight: 800; color: #10b981; line-height: 1; margin-bottom: 4px; }
+.ws-go-stat-lbl { font-size: 0.68rem; font-weight: 700; color: #334155; text-transform: uppercase; letter-spacing: 1px; }
+
+.ws-go-best-row  { font-size: 0.82rem; color: #64748b; margin-bottom: 8px; }
+.ws-go-best-row span { color: #f1f5f9; font-weight: 700; }
+.ws-go-new-best  { font-size: 0.88rem; font-weight: 700; color: #86efac; margin-bottom: 18px; }
+
+.ws-ghost-btn {
+  width: 100%; padding: 13px; margin-top: 8px;
+  font-size: 0.9rem; font-weight: 700; font-family: 'Inter', sans-serif;
+  border: 1.5px solid rgba(255,255,255,0.1); border-radius: var(--r-md);
+  background: transparent; color: #64748b; cursor: pointer;
+  transition: background 0.18s, border-color 0.18s;
+}
+.ws-ghost-btn:hover { background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.18); color: #94a3b8; }
+
+/* Win state */
+#ws-gameover.win .ws-go-title   { color: #86efac; }
+#ws-gameover.win .ws-go-stat-val { color: #86efac; }

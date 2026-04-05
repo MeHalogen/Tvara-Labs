@@ -5,6 +5,150 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <meta name="theme-color" content="#0a0d1a"/>
   <title>Memory Grid — Tvara</title>
+  <!-- Favicons & PWA -->
+  <link rel="icon" type="image/x-icon" href="../assets/favicon.ico"/>
+  <link rel="icon" type="image/png" sizes="16x16" href="../assets/favicon-16x16.png"/>
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32x32.png"/>
+  <link rel="apple-touch-icon" sizes="180x180" href="../assets/apple-touch-icon.png"/>
+  <link rel="manifest" href="../assets/site.webmanifest"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../assets/css/base.css"/>
+  <link rel="stylesheet" href="../assets/css/nav.css"/>
+  <link rel="stylesheet" href="../assets/games/game-shell.css"/>
+  <link rel="stylesheet" href="../assets/games/memory-grid.css"/>
+</head>
+<body>
+<div id="mg-app">
+
+  <!-- ── Nav ── -->
+  <nav class="tf-nav">
+    <div class="tf-nav-inner">
+      <a class="nav-brand" href="../index.html">
+        <div class="nav-logo">
+          <img src="../assets/favicon2.png" alt="Tvara logo" class="nav-logo-img"/>
+        </div>
+        <span class="nav-name">Tvara</span>
+      </a>
+      <div class="nav-breadcrumb">
+        <span class="nav-breadcrumb-sep">/</span>
+        <span class="nav-breadcrumb-page">Memory Grid</span>
+      </div>
+    </div>
+  </nav>
+
+  <div class="mg-wrap">
+
+    <!-- ══ PRE-PLAY ══ -->
+    <div id="mg-preplay">
+      <span class="mg-game-icon">🧠</span>
+      <div class="mg-game-name">Memory Grid</div>
+      <div class="mg-game-sub">Visual Memory</div>
+      <div class="mg-tagline">Watch which cells light up — then recall them perfectly.</div>
+      <div class="mg-best-row">🏆 Best Score &nbsp;<span class="bv" id="mg-best">—</span></div>
+
+      <div class="mg-howto">
+        <p><span>👁️</span> <span class="mg-howto-text">A grid flashes — <strong>memorise the lit cells</strong></span></p>
+        <p><span>⏱️</span> <span class="mg-howto-text">The grid hides — <strong>tap the cells you remember</strong> in 20s</span></p>
+        <p><span>📈</span> <span class="mg-howto-text">Grid <strong>grows each round</strong> — more cells, harder patterns</span></p>
+        <p><span>🏆</span> <span class="mg-howto-text">More correct = <strong>higher score</strong> — 8 rounds total</span></p>
+      </div>
+
+      <button class="mg-cta-btn" id="mg-play-btn">🧠 Begin Training</button>
+    </div>
+
+    <!-- ══ GAME ══ -->
+    <div id="mg-game" style="display:none">
+
+      <div class="mg-header">
+        <div class="mg-header-left">
+          <span class="mg-header-brand">Tvara</span>
+          <span class="mg-header-mode">Memory Grid</span>
+        </div>
+        <div class="mg-round-badge" id="mg-round-badge">Round 1 of 8</div>
+      </div>
+
+      <!-- timer bar -->
+      <div class="mg-timer-wrap">
+        <div class="mg-timer-bar" id="mg-timer-bar" style="width:100%"></div>
+      </div>
+
+      <!-- phase label -->
+      <div class="mg-phase-label" id="mg-phase-label">Get ready…</div>
+
+      <!-- score / level strip -->
+      <div class="mg-strip">
+        <div class="mg-strip-item">
+          <div class="mg-strip-val" id="mg-score-val">0</div>
+          <div class="mg-strip-lbl">Score</div>
+        </div>
+        <div class="mg-strip-item">
+          <div class="mg-strip-val" id="mg-round-val">1</div>
+          <div class="mg-strip-lbl">Round</div>
+        </div>
+      </div>
+
+      <!-- grid -->
+      <div class="mg-grid-wrap">
+        <div class="mg-grid" id="mg-grid"></div>
+      </div>
+
+      <button class="mg-submit-btn" id="mg-submit-btn" style="display:none">Submit Recall ›</button>
+    </div><!-- /mg-game -->
+
+    <!-- ══ GAME OVER ══ -->
+    <div id="mg-gameover" style="display:none">
+      <span class="mg-go-emoji" id="mg-go-emoji">🧠</span>
+      <div class="mg-go-title" id="mg-go-title">Session Over</div>
+      <div class="mg-go-sub"   id="mg-go-sub">You reached round 1 of 8</div>
+      <div class="mg-go-msg"   id="mg-go-msg"></div>
+      <div class="mg-divider"></div>
+
+      <div class="mg-scores-row">
+        <div class="mg-score-col">
+          <div class="mg-go-score-val" id="mg-final-score">0</div>
+          <div class="mg-go-label">Score</div>
+        </div>
+        <div style="width:1px;height:44px;background:rgba(255,255,255,0.08)"></div>
+        <div class="mg-score-col">
+          <div class="mg-go-best-val" id="mg-best-display">0</div>
+          <div class="mg-go-label">Best Score</div>
+        </div>
+      </div>
+
+      <div class="mg-beat-best" id="mg-beat-best"></div>
+
+      <div class="mg-stats-row">
+        <div class="mg-stat-col">
+          <div class="mg-stat-val" id="mg-stat-rounds">—</div>
+          <div class="mg-stat-lbl">Rounds</div>
+        </div>
+        <div class="mg-stat-col">
+          <div class="mg-stat-val" id="mg-stat-score">—</div>
+          <div class="mg-stat-lbl">Score</div>
+        </div>
+        <div class="mg-stat-col">
+          <div class="mg-stat-val" id="mg-stat-result">—</div>
+          <div class="mg-stat-lbl">Result</div>
+        </div>
+      </div>
+
+      <button class="mg-share-btn" id="mg-share-btn">🔗 Share Score</button>
+      <div class="mg-go-actions">
+        <button class="mg-restart-btn" id="mg-restart-btn">Retry</button>
+        <button class="mg-menu-btn"    id="mg-menu-btn">← Tvara</button>
+      </div>
+    </div><!-- /mg-gameover -->
+
+  </div><!-- /mg-wrap -->
+</div><!-- /mg-app -->
+
+<div class="toast" id="toast"></div>
+<script type="module" src="../assets/games/memory-grid.js"></script>
+</body>
+</html>
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32x32.png"/>
+  <link rel="apple-touch-icon" sizes="180x180" href="../assets/apple-touch-icon.png"/>
+  <link rel="manifest" href="../assets/site.webmanifest"/>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="../assets/css/base.css"/>
   <link rel="stylesheet" href="../assets/css/nav.css"/>
@@ -16,7 +160,9 @@
   <nav class="tf-nav">
     <div class="tf-nav-inner">
       <a class="nav-brand" href="../index.html">
-        <div class="nav-logo">⚡</div>
+        <div class="nav-logo">
+          <img src="../assets/favicon2.png" alt="Tvara logo" class="nav-logo-img"/>
+        </div>
         <span class="nav-name">Tvara</span>
       </a>
       <div class="nav-breadcrumb">
