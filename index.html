@@ -274,6 +274,59 @@
 
 <div class="toast" id="toast"></div>
 
+<!-- ═══════════════════════════════════════
+     SESSION OVERLAY — SPA challenge flow
+     (Hero CTA → 5 quick challenges → result)
+     ═══════════════════════════════════════ -->
+<div id="session-overlay" class="so-hidden" role="dialog" aria-modal="true" aria-label="Training session">
+
+  <!-- close / back -->
+  <button class="so-back" id="so-back" aria-label="Exit session">←</button>
+
+  <!-- ── CHALLENGE VIEW ── -->
+  <div class="so-view" id="so-challenge-view">
+    <!-- progress -->
+    <div class="so-progress">
+      <div class="so-prog-bar-track">
+        <div class="so-prog-bar" id="so-prog-bar"></div>
+      </div>
+      <span class="so-round-label" id="so-round-label">Round 1 of 5</span>
+    </div>
+
+    <!-- timer -->
+    <div class="so-timer-track">
+      <div class="so-timer-bar" id="so-timer-bar"></div>
+    </div>
+
+    <!-- question -->
+    <div class="so-question-wrap">
+      <div class="so-sequence" id="so-sequence"></div>
+      <div class="so-prompt">What comes next?</div>
+    </div>
+
+    <!-- options -->
+    <div class="so-options" id="so-options"></div>
+
+    <!-- inline feedback (fades in, doesn't shift layout) -->
+    <div class="so-inline-fb" id="so-inline-fb" aria-live="polite"></div>
+  </div>
+
+  <!-- ── RESULT VIEW ── -->
+  <div class="so-view so-view-hidden" id="so-result-view">
+    <div class="so-result-emoji" id="so-result-emoji">⚡</div>
+    <div class="so-result-title" id="so-result-title">Session Complete</div>
+    <div class="so-result-score" id="so-result-score"></div>
+    <div class="so-result-badge" id="so-result-badge"></div>
+    <div class="so-result-streak" id="so-result-streak"></div>
+    <div class="so-result-actions">
+      <button class="so-replay-btn" id="so-replay-btn">Go Again →</button>
+      <button class="so-deeper-btn" id="so-deeper-btn">Try a full game →</button>
+    </div>
+  </div>
+
+</div>
+
 <script type="module" src="assets/js/home.js"></script>
+<script type="module" src="assets/js/session.js"></script>
 </body>
 </html>

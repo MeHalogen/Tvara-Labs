@@ -146,28 +146,34 @@ function refreshHomeBests() {
 }
 
 function init() {
-  // ── Landing page enter button ──
-  const landingView = document.getElementById('landing-view');
-  const homeView    = document.getElementById('home-view');
-  const enterBtn    = document.getElementById('landing-enter-btn');
-
-  if (enterBtn && landingView && homeView) {
-    enterBtn.addEventListener('click', () => {
-      landingView.classList.add('landing-exit');
-      setTimeout(() => {
-        landingView.style.display = 'none';
-        homeView.classList.remove('home-hidden');
-      }, 600);
-    });
-  }
-
   refreshHomeBests();
   initLiveCounter();
   initHeroQuiz();
 
-  // Hero CTA → Pattern Pulse
+  // Landing enter → show home view (existing behaviour)
+  // Hero CTA + landing CTA → launch session overlay (imported by session.js)
   const heroBtn = document.getElementById('hero-play-btn');
-  if (heroBtn) heroBtn.addEventListener('click', () => { location.href = '/games/pattern-pulse'; });
+  if (heroBtn) heroBtn.addEventListener('click', () => {
+    document.dispatchEvent(new CustomEvent('tvara:start-session'));
+  });
+
+  // Landing enter button → dismiss splash, then start session
+  const landingEnterBtn = document.getElementById('landing-enter-btn');
+  const landingView2    = document.getElementById('landing-view');
+  const homeView2       = document.getElementById('home-view');
+  if (landingEnterBtn && landingView2 && homeView2) {
+    landingEnterBtn.addEventListener('click', () => {
+      landingView2.classList.add('landing-exit');
+      setTimeout(() => {
+        landingView2.style.display = 'none';
+        homeView2.classList.remove('home-hidden');
+        // slight delay so home fades in before overlay opens
+        setTimeout(() => {
+          document.dispatchEvent(new CustomEvent('tvara:start-session'));
+        }, 320);
+      }, 600);
+    });
+  }
 
   // Pattern Pulse card
   const pulseCard = document.getElementById('card-pulse');
