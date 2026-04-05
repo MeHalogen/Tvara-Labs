@@ -418,7 +418,7 @@ function init() {
   document.getElementById('ll-play-btn').addEventListener('click', launchGame);
   document.getElementById('ll-restart-btn').addEventListener('click', launchGame);
   document.getElementById('ll-share-btn').addEventListener('click', shareScore);
-  document.getElementById('ll-menu-btn').addEventListener('click', () => { location.href = '../index.html'; });
+  document.getElementById('ll-menu-btn').addEventListener('click', () => { location.href = '/'; });
 }
 
 document.addEventListener('DOMContentLoaded', init);

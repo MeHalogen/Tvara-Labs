@@ -300,7 +300,7 @@ function init() {
   document.getElementById('restart-btn').addEventListener('click', launchGame);
   document.getElementById('share-btn').addEventListener('click', shareScore);
   document.getElementById('menu-btn').addEventListener('click', () => {
-    location.href = '../index.html';
+    location.href = '/';
   });
 }
 

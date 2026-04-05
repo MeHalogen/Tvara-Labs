@@ -376,7 +376,7 @@ function init() {
   document.getElementById('rr-restart-btn').addEventListener('click', launchGame);
   document.getElementById('rr-share-btn').addEventListener('click', shareScore);
   document.getElementById('rr-menu-btn').addEventListener('click', () => {
-    location.href = '../index.html';
+    location.href = '/';
   });
 }
 
