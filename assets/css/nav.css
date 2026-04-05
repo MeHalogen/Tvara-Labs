@@ -40,28 +40,14 @@
   font-size: 1rem;
   box-shadow: 0 4px 14px rgba(99,102,241,0.45);
 }
-.nav-name-wrap {
-  display: flex;
-  flex-direction: column;
-  gap: 0px;
-}
 .nav-name {
   font-size: 1.1rem;
   font-weight: 800;
   letter-spacing: -0.3px;
-  line-height: 1.1;
   background: linear-gradient(135deg, var(--purple), var(--blue));
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-}
-.nav-tagline {
-  font-size: 0.62rem;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  color: #475569;
-  text-transform: uppercase;
-  -webkit-text-fill-color: #475569;
 }
 
 /* ── Breadcrumb (game pages) ── */
