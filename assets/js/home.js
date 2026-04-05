@@ -79,31 +79,31 @@ function init() {
 
   // Hero CTA → Pattern Pulse
   const heroBtn = document.getElementById('hero-play-btn');
-  if (heroBtn) heroBtn.addEventListener('click', () => { location.href = 'games/pattern-pulse.html'; });
+  if (heroBtn) heroBtn.addEventListener('click', () => { location.href = '/games/pattern-pulse'; });
 
   // Pattern Pulse card
   const pulseCard = document.getElementById('card-pulse');
-  if (pulseCard) pulseCard.addEventListener('click', () => { location.href = 'games/pattern-pulse.html'; });
+  if (pulseCard) pulseCard.addEventListener('click', () => { location.href = '/games/pattern-pulse'; });
 
   // Reflex Rush card
   const reflexCard = document.getElementById('card-reflex');
-  if (reflexCard) reflexCard.addEventListener('click', () => { location.href = 'games/reflex-rush.html'; });
+  if (reflexCard) reflexCard.addEventListener('click', () => { location.href = '/games/reflex-rush'; });
 
   // Logic Lock card
   const logicCard = document.getElementById('card-logic');
-  if (logicCard) logicCard.addEventListener('click', () => { location.href = 'games/logic-lock.html'; });
+  if (logicCard) logicCard.addEventListener('click', () => { location.href = '/games/logic-lock'; });
 
   // Memory Grid card
   const memoryCard = document.getElementById('card-memory');
-  if (memoryCard) memoryCard.addEventListener('click', () => { location.href = 'games/memory-grid.html'; });
+  if (memoryCard) memoryCard.addEventListener('click', () => { location.href = '/games/memory-grid'; });
 
   // Speed Math card
   const speedMathCard = document.getElementById('card-speedmath');
-  if (speedMathCard) speedMathCard.addEventListener('click', () => { location.href = 'games/speed-math.html'; });
+  if (speedMathCard) speedMathCard.addEventListener('click', () => { location.href = '/games/speed-math'; });
 
   // Word Scramble card
   const wsCard = document.getElementById('card-wordscramble');
-  if (wsCard) wsCard.addEventListener('click', () => { location.href = 'games/word-scramble.html'; });
+  if (wsCard) wsCard.addEventListener('click', () => { location.href = '/games/word-scramble'; });
 
   // Try a Round — homepage preview
   initTryARound();
