@@ -3,6 +3,7 @@
    ══════════════════════════════════════════ */
 
 import { initTryARound } from './try-a-round.js';
+import { loadUser } from './user.js';
 
 const LS_PP = 'tf_pp_best';
 const LS_RR = 'tf_rr_best';
@@ -145,10 +146,28 @@ function refreshHomeBests() {
   if (wsChip && wsBest > 0) wsChip.classList.add('show');
 }
 
+function initUserBadge() {
+  const user    = loadUser();
+  const nameEl  = document.getElementById('user-name');
+  const streakEl = document.getElementById('user-streak');
+  const bestEl  = document.getElementById('user-best');
+
+  if (nameEl)   nameEl.textContent  = user.username;
+  if (streakEl) {
+    streakEl.textContent = user.streak >= 1 ? `🔥 ${user.streak}d` : '';
+    streakEl.style.display = user.streak >= 1 ? '' : 'none';
+  }
+  if (bestEl) {
+    bestEl.textContent  = user.bestScore > 0 ? `Best: ${user.bestScore}/5` : '';
+    bestEl.style.display = user.bestScore > 0 ? '' : 'none';
+  }
+}
+
 function init() {
   refreshHomeBests();
   initLiveCounter();
   initHeroQuiz();
+  initUserBadge();
 
   // Landing enter → show home view (existing behaviour)
   // Hero CTA + landing CTA → launch session overlay (imported by session.js)

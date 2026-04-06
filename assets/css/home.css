@@ -1122,6 +1122,94 @@
 }
 .so-deeper-btn:hover { background: rgba(255,255,255,0.08); color: #94a3b8; }
 
+/* ── Share button ── */
+.so-share-btn {
+  margin-top: 10px;
+  background: none;
+  border: 1px solid rgba(255,255,255,0.12);
+  color: #64748b;
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 9px 22px;
+  border-radius: var(--r-full);
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+  letter-spacing: 0.2px;
+}
+.so-share-btn:hover {
+  border-color: rgba(99,102,241,0.45);
+  color: #818cf8;
+  background: rgba(99,102,241,0.06);
+}
+
+/* ── Leaderboard ── */
+.so-leaderboard {
+  margin-top: 20px;
+  width: 100%;
+  max-width: 340px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.so-lb-header {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #475569;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+  text-align: left;
+}
+
+.so-lb-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 12px;
+  border-radius: 10px;
+  margin-bottom: 4px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid transparent;
+  transition: background 0.12s;
+}
+
+.so-lb-row.so-lb-you {
+  background: rgba(99,102,241,0.10);
+  border-color: rgba(99,102,241,0.25);
+}
+
+.so-lb-rank {
+  font-size: 0.85rem;
+  width: 28px;
+  flex-shrink: 0;
+  text-align: center;
+}
+
+.so-lb-name {
+  flex: 1;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #94a3b8;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.so-lb-you .so-lb-name {
+  color: #a5b4fc;
+}
+
+.so-lb-score {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #475569;
+  flex-shrink: 0;
+}
+
+.so-lb-you .so-lb-score {
+  color: #818cf8;
+}
+
 /* ════════════════════════════════
    Footer
    ════════════════════════════════ */

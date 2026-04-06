@@ -4,6 +4,8 @@
    No page reload. Pure state machine.
    ══════════════════════════════════════════════════════ */
 
+import { updateAfterSession, getLeaderboard, loadUser } from './user.js';
+
 /* ─────────────────────────────────────────
    Challenge pool — 5 pattern types
    Each entry: sequence display, answer, distractors, explanation
@@ -61,8 +63,6 @@ const CHALLENGES = [
 
 const SESSION_LENGTH = 5;
 const QUESTION_TIME  = 10; // seconds
-const LS_STREAK      = 'tvara_session_streak';
-const LS_HIGH        = 'tvara_session_high';
 
 /* ─────────────────────────────────────────
    State
@@ -85,7 +85,7 @@ let overlay, challengeView, resultView;
 let progBar, roundLabel, timerBar;
 let sequenceEl, optionsEl, inlineFb;
 let resultEmoji, resultTitle, resultScore, resultBadge, resultStreak;
-let replayBtn, deeperBtn, backBtn;
+let replayBtn, deeperBtn, backBtn, shareBtn;
 
 /* ─────────────────────────────────────────
    Helpers
@@ -308,22 +308,8 @@ function showResult() {
   const avgMs    = state.times.reduce((a, b) => a + b, 0) / total;
   const avgSec   = (avgMs / 1000).toFixed(1);
 
-  // Streak
-  let streak = parseInt(localStorage.getItem(LS_STREAK) || '0', 10);
-  if (correct >= 3) {
-    streak += 1;
-  } else {
-    streak = 0;
-  }
-  localStorage.setItem(LS_STREAK, streak);
-
-  // High score
-  let high = parseInt(localStorage.getItem(LS_HIGH) || '0', 10);
-  const isNewHigh = correct > high;
-  if (correct > high) {
-    high = correct;
-    localStorage.setItem(LS_HIGH, high);
-  }
+  // Persist + get updated user data
+  const { user, isNewBest } = updateAfterSession(correct, total);
 
   // Percentile copy (deterministic from score)
   const percentiles = ['', 'Top 85%', 'Top 72%', 'Top 54%', 'Top 31%', 'Top 12%'];
@@ -350,13 +336,51 @@ function showResult() {
   resultBadge.style.display = pctText ? '' : 'none';
 
   let streakText = '';
-  if (streak >= 2) streakText = `🔥 ${streak} session streak`;
-  else if (isNewHigh && correct > 0) streakText = '⭐ New best!';
+  if (user.streak >= 2) streakText = `🔥 ${user.streak}-day streak`;
+  else if (isNewBest && correct > 0) streakText = '⭐ New best!';
   resultStreak.textContent = streakText;
   resultStreak.style.display = streakText ? '' : 'none';
 
+  // Leaderboard
+  renderLeaderboard(user);
+
   // Switch view
   switchView(resultView);
+}
+
+function renderLeaderboard(user) {
+  const board = getLeaderboard(user);
+  const el    = document.getElementById('so-leaderboard');
+  if (!el) return;
+
+  el.innerHTML = '';
+
+  const header = document.createElement('div');
+  header.className = 'so-lb-header';
+  header.textContent = 'Today\'s Leaderboard';
+  el.appendChild(header);
+
+  board.forEach((entry, i) => {
+    const row = document.createElement('div');
+    row.className = 'so-lb-row' + (entry.isUser ? ' so-lb-you' : '');
+
+    const rank = document.createElement('span');
+    rank.className = 'so-lb-rank';
+    rank.textContent = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : `#${i + 1}`;
+
+    const name = document.createElement('span');
+    name.className = 'so-lb-name';
+    name.textContent = entry.name + (entry.isUser ? ' (you)' : '');
+
+    const score = document.createElement('span');
+    score.className = 'so-lb-score';
+    score.textContent = `${entry.score}/${SESSION_LENGTH}`;
+
+    row.appendChild(rank);
+    row.appendChild(name);
+    row.appendChild(score);
+    el.appendChild(row);
+  });
 }
 
 /* ─────────────────────────────────────────
@@ -400,6 +424,7 @@ document.addEventListener('DOMContentLoaded', () => {
   replayBtn     = document.getElementById('so-replay-btn');
   deeperBtn     = document.getElementById('so-deeper-btn');
   backBtn       = document.getElementById('so-back');
+  shareBtn      = document.getElementById('so-share-btn');
 
   if (!overlay) return;
 
@@ -424,6 +449,25 @@ document.addEventListener('DOMContentLoaded', () => {
     resetSession();
     hideOverlay();
   });
+
+  // Share
+  if (shareBtn) {
+    shareBtn.addEventListener('click', () => {
+      const user    = loadUser();
+      const correct = state.scores.filter(Boolean).length;
+      const text    = `I scored ${correct}/${SESSION_LENGTH} on Tvara — train your brain at tvaralabs.in 🧠⚡`;
+      if (navigator.share) {
+        navigator.share({ title: 'Tvara Brain Training', text, url: 'https://tvaralabs.in' })
+          .catch(() => {});
+      } else {
+        navigator.clipboard.writeText(text).then(() => {
+          const orig = shareBtn.textContent;
+          shareBtn.textContent = '✓ Copied!';
+          setTimeout(() => { shareBtn.textContent = orig; }, 2000);
+        }).catch(() => {});
+      }
+    });
+  }
 
   // Escape key
   document.addEventListener('keydown', e => {

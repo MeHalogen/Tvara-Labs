@@ -125,3 +125,49 @@
 @media (max-width: 480px) {
   .tf-nav-inner  { padding: 14px 20px; }
 }
+
+/* ── User identity badge ── */
+.user-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: 10px;
+  flex-shrink: 0;
+}
+
+.user-badge-name {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #94a3b8;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 110px;
+}
+
+.user-badge-streak,
+.user-badge-best {
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: var(--r-full);
+  white-space: nowrap;
+}
+
+.user-badge-streak {
+  background: rgba(245, 158, 11, 0.15);
+  color: #fbbf24;
+  border: 1px solid rgba(245, 158, 11, 0.25);
+}
+
+.user-badge-best {
+  background: rgba(99, 102, 241, 0.12);
+  color: #818cf8;
+  border: 1px solid rgba(99, 102, 241, 0.22);
+}
+
+@media (max-width: 480px) {
+  .user-badge-best { display: none !important; }
+  .user-badge-name { max-width: 72px; }
+}
