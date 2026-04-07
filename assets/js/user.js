@@ -4,6 +4,19 @@
    ══════════════════════════════════════════ */
 
 const LS_KEY = 'tvara_data';
+const SETTINGS_KEY = 'tvara_settings';
+const DEVICE_KEY = 'tvara_device_id';
+
+export function getDeviceId() {
+  try {
+    const existing = localStorage.getItem(DEVICE_KEY);
+    if (existing) return existing;
+  } catch (_) {}
+  // Not crypto-perfect; fine for anonymous install identification.
+  const id = 'tv_' + Math.random().toString(16).slice(2) + Math.random().toString(16).slice(2);
+  try { localStorage.setItem(DEVICE_KEY, id); } catch (_) {}
+  return id;
+}
 
 const ADJECTIVES = [
   'Quick','Sharp','Rapid','Bold','Swift',
@@ -45,6 +58,84 @@ export function saveUser(data) {
   try {
     localStorage.setItem(LS_KEY, JSON.stringify(data));
   } catch (_) {}
+}
+
+export function setUsername(username) {
+  const name = String(username || '').trim();
+  if (!name) return { ok: false, error: 'Name cannot be empty.' };
+  if (name.length > 24) return { ok: false, error: 'Name must be 24 characters or less.' };
+  if (!/^[a-zA-Z0-9 _-]+$/.test(name)) return { ok: false, error: 'Use only letters, numbers, spaces, _ or -.' };
+
+  const user = loadUser();
+  user.username = name;
+  saveUser(user);
+  return { ok: true, user };
+}
+
+export function resetUser() {
+  try { localStorage.removeItem(LS_KEY); } catch (_) {}
+  try { localStorage.removeItem(SETTINGS_KEY); } catch (_) {}
+  // Also clear per-game bests (home uses these)
+  const keys = ['tf_pp_best','tf_rr_best','tf_ll_best','tf_mg_best','tf_sm_best','tf_ws_best','tf_ps_best','tf_pc_best'];
+  keys.forEach(k => { try { localStorage.removeItem(k); } catch (_) {} });
+  // Do NOT call loadUser() here — avoids auto-creating a new profile
+  // before import can write the restored one.
+}
+
+export function loadSettings() {
+  try {
+    const raw = localStorage.getItem(SETTINGS_KEY);
+    if (raw) return JSON.parse(raw);
+  } catch (_) {}
+  const fresh = { reducedMotion: false, sound: true };
+  saveSettings(fresh);
+  return fresh;
+}
+
+export function saveSettings(settings) {
+  try {
+    localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
+  } catch (_) {}
+}
+
+export function exportTvaraData() {
+  const payload = {
+    v: 1,
+    exportedAt: new Date().toISOString(),
+    deviceId: getDeviceId(),
+    user: loadUser(),
+    settings: loadSettings(),
+    bests: {
+      tf_pp_best: localStorage.getItem('tf_pp_best') || '0',
+      tf_rr_best: localStorage.getItem('tf_rr_best') || '0',
+      tf_ll_best: localStorage.getItem('tf_ll_best') || '0',
+      tf_mg_best: localStorage.getItem('tf_mg_best') || '0',
+      tf_sm_best: localStorage.getItem('tf_sm_best') || '0',
+      tf_ws_best: localStorage.getItem('tf_ws_best') || '0',
+      tf_ps_best: localStorage.getItem('tf_ps_best') || '0',
+      tf_pc_best: localStorage.getItem('tf_pc_best') || '0',
+    }
+  };
+  return JSON.stringify(payload, null, 2);
+}
+
+export function importTvaraData(jsonString) {
+  let parsed;
+  try { parsed = JSON.parse(jsonString); } catch (_) { return { ok: false, error: 'Invalid JSON.' }; }
+  if (!parsed || typeof parsed !== 'object' || !parsed.user) return { ok: false, error: 'Not a valid Tvara export.' };
+
+  try { localStorage.setItem(LS_KEY, JSON.stringify(parsed.user)); } catch (_) {}
+  if (parsed.settings) {
+    try { localStorage.setItem(SETTINGS_KEY, JSON.stringify(parsed.settings)); } catch (_) {}
+  }
+  if (parsed.bests && typeof parsed.bests === 'object') {
+    Object.entries(parsed.bests).forEach(([k, v]) => {
+      if (String(k).startsWith('tf_')) {
+        try { localStorage.setItem(k, String(v)); } catch (_) {}
+      }
+    });
+  }
+  return { ok: true, user: loadUser(), settings: loadSettings() };
 }
 
 /* ── Day-based streak logic ── */
