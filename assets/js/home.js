@@ -11,6 +11,8 @@ const LS_LL = 'tf_ll_best';
 const LS_MG = 'tf_mg_best';
 const LS_SM = 'tf_sm_best';
 const LS_WS = 'tf_ws_best';
+const LS_PS = 'tf_ps_best';
+const LS_PC = 'tf_pc_best';
 
 function getBest(key) {
   return parseInt(localStorage.getItem(key) || '0', 10);
@@ -144,6 +146,48 @@ function refreshHomeBests() {
   const wsChip = document.getElementById('home-ws-chip');
   if (wsEl)   wsEl.textContent = wsBest > 0 ? wsBest : '—';
   if (wsChip && wsBest > 0) wsChip.classList.add('show');
+
+  // Prime Sprint
+  const psBest = getBest(LS_PS);
+  const psEl   = document.getElementById('home-ps-best');
+  const psChip = document.getElementById('home-ps-chip');
+  if (psEl)   psEl.textContent = psBest > 0 ? psBest : '—';
+  if (psChip && psBest > 0) psChip.classList.add('show');
+
+  // Percent Panic
+  const pcBest = getBest(LS_PC);
+  const pcEl   = document.getElementById('home-pc-best');
+  const pcChip = document.getElementById('home-pc-chip');
+  if (pcEl)   pcEl.textContent = pcBest > 0 ? pcBest : '—';
+  if (pcChip && pcBest > 0) pcChip.classList.add('show');
+}
+
+function initTracks() {
+  const wrap = document.getElementById('tracks');
+  if (!wrap) return;
+  const pills = wrap.querySelectorAll('.track-pill');
+  const cards = Array.from(document.querySelectorAll('.games-grid .game-card'));
+  if (!pills.length || !cards.length) return;
+
+  function setActive(track) {
+    pills.forEach(p => {
+      const isActive = p.dataset.track === track;
+      p.classList.toggle('active', isActive);
+      p.setAttribute('aria-selected', isActive ? 'true' : 'false');
+    });
+
+    cards.forEach(card => {
+      const t = card.dataset.track || 'all';
+      const show = track === 'all' || t === track;
+      card.style.display = show ? '' : 'none';
+    });
+  }
+
+  pills.forEach(p => {
+    p.addEventListener('click', () => setActive(p.dataset.track || 'all'));
+  });
+
+  setActive('all');
 }
 
 function initUserBadge() {
@@ -168,6 +212,7 @@ function init() {
   initLiveCounter();
   initHeroQuiz();
   initUserBadge();
+  initTracks();
 
   // Landing enter → show home view (existing behaviour)
   // Hero CTA + landing CTA → launch session overlay (imported by session.js)
@@ -181,12 +226,26 @@ function init() {
   const landingView2    = document.getElementById('landing-view');
   const homeView2       = document.getElementById('home-view');
   if (landingEnterBtn && landingView2 && homeView2) {
+    // Replace the landing history entry so "back" never returns to it
+    history.replaceState({ view: 'landing' }, '');
+
     landingEnterBtn.addEventListener('click', () => {
+      // Push a new entry so the page URL stays the same but back leads here, not landing
+      history.pushState({ view: 'home' }, '');
+
       landingView2.classList.add('landing-exit');
       setTimeout(() => {
         landingView2.style.display = 'none';
         homeView2.classList.remove('home-hidden');
       }, 600);
+    });
+
+    // If the user somehow hits the browser back button while on home, intercept it
+    window.addEventListener('popstate', (e) => {
+      if (e.state && e.state.view === 'landing') {
+        // Don't show landing again — push home state back
+        history.pushState({ view: 'home' }, '');
+      }
     });
   }
 
@@ -213,6 +272,14 @@ function init() {
   // Word Scramble card
   const wsCard = document.getElementById('card-wordscramble');
   if (wsCard) wsCard.addEventListener('click', () => { location.href = '/games/word-scramble'; });
+
+  // Prime Sprint card
+  const primeCard = document.getElementById('card-prime');
+  if (primeCard) primeCard.addEventListener('click', () => { location.href = '/games/prime-sprint'; });
+
+  // Percent Panic card
+  const percentCard = document.getElementById('card-percent');
+  if (percentCard) percentCard.addEventListener('click', () => { location.href = '/games/percent-panic'; });
 
   // Try a Round — homepage preview
   initTryARound();

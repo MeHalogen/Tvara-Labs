@@ -5,86 +5,102 @@
 
 const LS_KEY = 'tf_ws_best';
 
-// Time per word (ms) — shrinks as streak grows
+// Time per word — user-set timer overrides the adaptive default
 function getTimeMs(streak) {
+  // If user set a fixed timer, always use that
+  if (state.timerSec) return state.timerSec * 1000;
   if (streak >= 12) return 5000;
   if (streak >= 8)  return 6500;
   if (streak >= 5)  return 8000;
   return 10000;
 }
 
-// Word bank — categorised for the hint display
+// Word bank — easy, recognisable everyday words
 const WORD_BANK = [
-  // 4-letter
-  { word: 'BOLD', cat: 'Adjective' },
-  { word: 'GRIP', cat: 'Action' },
-  { word: 'FLUX', cat: 'Science' },
-  { word: 'MIST', cat: 'Nature' },
-  { word: 'GLOW', cat: 'Light' },
-  { word: 'HUSK', cat: 'Nature' },
-  { word: 'VIBE', cat: 'Feeling' },
-  { word: 'RUST', cat: 'Nature' },
-  { word: 'DUSK', cat: 'Time' },
-  { word: 'LENS', cat: 'Object' },
-  { word: 'OATH', cat: 'Concept' },
-  { word: 'PULP', cat: 'Material' },
-  { word: 'RAMP', cat: 'Structure' },
-  { word: 'HAZE', cat: 'Weather' },
-  // 5-letter
-  { word: 'BRAVE', cat: 'Trait' },
-  { word: 'FLINT', cat: 'Material' },
-  { word: 'GLOOM', cat: 'Feeling' },
-  { word: 'PRISM', cat: 'Science' },
-  { word: 'SOLAR', cat: 'Astronomy' },
-  { word: 'SWIRL', cat: 'Motion' },
-  { word: 'QUILT', cat: 'Object' },
-  { word: 'GRAZE', cat: 'Action' },
-  { word: 'FLARE', cat: 'Light' },
-  { word: 'CRISP', cat: 'Texture' },
-  { word: 'BLAZE', cat: 'Fire' },
-  { word: 'CHORD', cat: 'Music' },
-  { word: 'DWARF', cat: 'Size' },
-  { word: 'EPOCH', cat: 'Time' },
-  { word: 'FROST', cat: 'Weather' },
-  { word: 'GRAFT', cat: 'Action' },
-  { word: 'LYMPH', cat: 'Biology' },
-  { word: 'PLUNK', cat: 'Sound' },
-  { word: 'QUIRK', cat: 'Trait' },
-  { word: 'SCORN', cat: 'Feeling' },
-  { word: 'SHARD', cat: 'Material' },
-  { word: 'SHRUB', cat: 'Nature' },
-  { word: 'SKULK', cat: 'Action' },
-  { word: 'SPUNK', cat: 'Trait' },
-  { word: 'SQUAB', cat: 'Nature' },
-  { word: 'STOMP', cat: 'Action' },
-  { word: 'SWAMP', cat: 'Nature' },
-  { word: 'TRYST', cat: 'Event' },
-  // 6-letter
-  { word: 'COBALT', cat: 'Chemistry' },
-  { word: 'FATHOM', cat: 'Measure' },
-  { word: 'GALLOP', cat: 'Motion' },
-  { word: 'GLACIAL', cat: 'Temperature' },
-  { word: 'IGNITE', cat: 'Action' },
-  { word: 'JIGSAW', cat: 'Object' },
-  { word: 'LOCKET', cat: 'Object' },
-  { word: 'MORTAL', cat: 'Biology' },
-  { word: 'NEBULA', cat: 'Astronomy' },
-  { word: 'NIMBLE', cat: 'Trait' },
-  { word: 'OPAQUE', cat: 'Optical' },
-  { word: 'PELLET', cat: 'Object' },
-  { word: 'REFLEX', cat: 'Action' },
-  { word: 'RIPPLE', cat: 'Motion' },
-  { word: 'SCULPT', cat: 'Art' },
-  { word: 'SHREWD', cat: 'Trait' },
-  { word: 'SIGNAL', cat: 'Concept' },
-  { word: 'SMUDGE', cat: 'Action' },
-  { word: 'SQUALL', cat: 'Weather' },
-  { word: 'STOKER', cat: 'Person' },
-  { word: 'STRIDE', cat: 'Motion' },
-  { word: 'TANGLE', cat: 'State' },
-  { word: 'TUNDRA', cat: 'Geography' },
-  { word: 'VORTEX', cat: 'Physics' },
-  { word: 'WRAITH', cat: 'Myth' },
+  // 3-letter (Easy tier)
+  { word: 'CAT',   cat: 'Animal',   tier: 'easy' },
+  { word: 'DOG',   cat: 'Animal',   tier: 'easy' },
+  { word: 'SUN',   cat: 'Nature',   tier: 'easy' },
+  { word: 'MAP',   cat: 'Object',   tier: 'easy' },
+  { word: 'CUP',   cat: 'Object',   tier: 'easy' },
+  { word: 'RUN',   cat: 'Action',   tier: 'easy' },
+  { word: 'FLY',   cat: 'Action',   tier: 'easy' },
+  { word: 'BOX',   cat: 'Object',   tier: 'easy' },
+  { word: 'JAM',   cat: 'Food',     tier: 'easy' },
+  { word: 'PEN',   cat: 'Object',   tier: 'easy' },
+  // 4-letter (Easy/Medium)
+  { word: 'JUMP',  cat: 'Action',   tier: 'easy' },
+  { word: 'CAKE',  cat: 'Food',     tier: 'easy' },
+  { word: 'BIRD',  cat: 'Animal',   tier: 'easy' },
+  { word: 'BOOK',  cat: 'Object',   tier: 'easy' },
+  { word: 'FISH',  cat: 'Animal',   tier: 'easy' },
+  { word: 'MILK',  cat: 'Food',     tier: 'easy' },
+  { word: 'RAIN',  cat: 'Weather',  tier: 'easy' },
+  { word: 'STAR',  cat: 'Nature',   tier: 'easy' },
+  { word: 'DOOR',  cat: 'Object',   tier: 'easy' },
+  { word: 'SHIP',  cat: 'Vehicle',  tier: 'easy' },
+  { word: 'WOLF',  cat: 'Animal',   tier: 'easy' },
+  { word: 'FARM',  cat: 'Place',    tier: 'easy' },
+  { word: 'HAND',  cat: 'Body',     tier: 'easy' },
+  { word: 'TREE',  cat: 'Nature',   tier: 'easy' },
+  { word: 'WIND',  cat: 'Weather',  tier: 'easy' },
+  { word: 'FIRE',  cat: 'Element',  tier: 'easy' },
+  { word: 'CAVE',  cat: 'Place',    tier: 'easy' },
+  { word: 'FROG',  cat: 'Animal',   tier: 'easy' },
+  { word: 'LAMP',  cat: 'Object',   tier: 'easy' },
+  { word: 'ROAD',  cat: 'Place',    tier: 'easy' },
+  // 5-letter (Medium)
+  { word: 'BRAVE', cat: 'Trait',    tier: 'medium' },
+  { word: 'CLOUD', cat: 'Nature',   tier: 'medium' },
+  { word: 'DANCE', cat: 'Action',   tier: 'medium' },
+  { word: 'EAGLE', cat: 'Animal',   tier: 'medium' },
+  { word: 'FLAME', cat: 'Element',  tier: 'medium' },
+  { word: 'GLOBE', cat: 'Object',   tier: 'medium' },
+  { word: 'HEART', cat: 'Body',     tier: 'medium' },
+  { word: 'IMAGE', cat: 'Concept',  tier: 'medium' },
+  { word: 'JUICE', cat: 'Food',     tier: 'medium' },
+  { word: 'KNIFE', cat: 'Object',   tier: 'medium' },
+  { word: 'LIGHT', cat: 'Physics',  tier: 'medium' },
+  { word: 'MONEY', cat: 'Concept',  tier: 'medium' },
+  { word: 'NIGHT', cat: 'Time',     tier: 'medium' },
+  { word: 'OCEAN', cat: 'Nature',   tier: 'medium' },
+  { word: 'PLANT', cat: 'Nature',   tier: 'medium' },
+  { word: 'QUEEN', cat: 'Person',   tier: 'medium' },
+  { word: 'RIVER', cat: 'Nature',   tier: 'medium' },
+  { word: 'SMILE', cat: 'Feeling',  tier: 'medium' },
+  { word: 'TIGER', cat: 'Animal',   tier: 'medium' },
+  { word: 'UNCLE', cat: 'Person',   tier: 'medium' },
+  { word: 'VOICE', cat: 'Sound',    tier: 'medium' },
+  { word: 'WATER', cat: 'Nature',   tier: 'medium' },
+  { word: 'EXTRA', cat: 'Concept',  tier: 'medium' },
+  { word: 'YOUNG', cat: 'Trait',    tier: 'medium' },
+  { word: 'ZEBRA', cat: 'Animal',   tier: 'medium' },
+  { word: 'ARROW', cat: 'Object',   tier: 'medium' },
+  { word: 'BEACH', cat: 'Place',    tier: 'medium' },
+  { word: 'CHAIR', cat: 'Object',   tier: 'medium' },
+  { word: 'DREAM', cat: 'Concept',  tier: 'medium' },
+  { word: 'EARTH', cat: 'Nature',   tier: 'medium' },
+  // 6-letter (Hard)
+  { word: 'BRIDGE', cat: 'Structure', tier: 'hard' },
+  { word: 'CAMERA', cat: 'Object',    tier: 'hard' },
+  { word: 'DESERT', cat: 'Place',     tier: 'hard' },
+  { word: 'ENGINE', cat: 'Machine',   tier: 'hard' },
+  { word: 'FOREST', cat: 'Nature',    tier: 'hard' },
+  { word: 'GARDEN', cat: 'Place',     tier: 'hard' },
+  { word: 'HAMMER', cat: 'Object',    tier: 'hard' },
+  { word: 'ISLAND', cat: 'Place',     tier: 'hard' },
+  { word: 'JUNGLE', cat: 'Nature',    tier: 'hard' },
+  { word: 'KETTLE', cat: 'Object',    tier: 'hard' },
+  { word: 'LADDER', cat: 'Object',    tier: 'hard' },
+  { word: 'MIRROR', cat: 'Object',    tier: 'hard' },
+  { word: 'NEEDLE', cat: 'Object',    tier: 'hard' },
+  { word: 'ORANGE', cat: 'Food',      tier: 'hard' },
+  { word: 'PENCIL', cat: 'Object',    tier: 'hard' },
+  { word: 'RABBIT', cat: 'Animal',    tier: 'hard' },
+  { word: 'SCHOOL', cat: 'Place',     tier: 'hard' },
+  { word: 'TEMPLE', cat: 'Place',     tier: 'hard' },
+  { word: 'BOTTLE', cat: 'Object',    tier: 'hard' },
+  { word: 'WINDOW', cat: 'Object',    tier: 'hard' },
 ];
 
 const state = {
@@ -102,6 +118,10 @@ const state = {
   timeLimitMs: 10000,
   rafHandle:   null,
   usedWords:   new Set(),
+  // User-configurable settings (read from pre-play selectors)
+  difficulty:  'easy',  // 'easy' | 'medium' | 'hard' | 'mixed'
+  timerSec:    10,      // seconds per word
+  lives_cfg:   3,       // number of lives
 };
 
 // ── Audio ─────────────────────────────────────────────
@@ -153,10 +173,17 @@ function shuffle(arr) {
 function pickWord() {
   const available = WORD_BANK.filter(w => !state.usedWords.has(w.word));
   if (available.length === 0) state.usedWords.clear();
-  const pool = available.length > 0 ? available : WORD_BANK;
-  // Weight towards longer words as streak increases
-  const minLen = state.streak >= 8 ? 6 : state.streak >= 4 ? 5 : 4;
-  const filtered = pool.filter(w => w.word.length >= minLen);
+  const pool = (available.length > 0 ? available : WORD_BANK);
+
+  // Filter by difficulty tier
+  let filtered;
+  if (state.difficulty === 'mixed') {
+    // Progressive: start easy, shift to harder as streak grows
+    const tier = state.streak >= 8 ? 'hard' : state.streak >= 4 ? 'medium' : 'easy';
+    filtered = pool.filter(w => w.tier === tier);
+  } else {
+    filtered = pool.filter(w => w.tier === state.difficulty);
+  }
   const final = filtered.length > 0 ? filtered : pool;
   return final[rand(0, final.length - 1)];
 }
@@ -390,10 +417,15 @@ function nextWord() {
 
 // ── Game start ────────────────────────────────────────
 function launchGame() {
+  // Read user-chosen settings from pill groups
+  state.difficulty = getSettingValue('ws-diff-sel',  'easy');
+  state.timerSec   = parseInt(getSettingValue('ws-timer-sel', '10'), 10);
+  state.lives_cfg  = parseInt(getSettingValue('ws-lives-sel', '3'),  10);
+
   state.score = 0;
   state.streak = 0;
   state.bestStreak = 0;
-  state.lives = 3;
+  state.lives = state.lives_cfg;
   state.solved = 0;
   state.running = true;
   state.usedWords.clear();
@@ -431,8 +463,32 @@ function showGameOver() {
 }
 
 // ── Init ──────────────────────────────────────────────
+function initPillGroups() {
+  document.querySelectorAll('.gs-pill-group').forEach(group => {
+    group.addEventListener('click', e => {
+      const btn = e.target.closest('.gs-pill');
+      if (!btn) return;
+      group.querySelectorAll('.gs-pill').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      // Store selected value as data attribute on the group for easy reading
+      group.dataset.selected = btn.dataset.value;
+    });
+    // Init data-selected from the initially active pill
+    const active = group.querySelector('.gs-pill.active');
+    if (active) group.dataset.selected = active.dataset.value;
+  });
+}
+
+// Wrapper so launchGame reads from data-selected
+function getSettingValue(id, fallback) {
+  const el = document.getElementById(id);
+  return el ? (el.dataset.selected || fallback) : fallback;
+}
+
 function init() {
   document.getElementById('ws-best').textContent = getBest() || '—';
+
+  initPillGroups();
 
   document.getElementById('ws-play-btn').addEventListener('click', launchGame);
   document.getElementById('ws-restart-btn').addEventListener('click', launchGame);

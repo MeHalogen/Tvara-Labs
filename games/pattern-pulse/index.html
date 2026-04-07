@@ -62,11 +62,34 @@
           <span class="pill pill-hard">Hard 9+</span>
         </div>
         <div class="howto">
-          <p><span>⏱</span> 10 seconds per question — speed matters</p>
+          <p><span>⏱</span> Timer per question — speed matters</p>
           <p><span>⚡</span> Spot the missing number in the sequence</p>
           <p><span>📈</span> Difficulty adapts as your score grows</p>
           <p><span>—</span> Wrong answer or timeout ends the session</p>
         </div>
+
+        <!-- ── User settings ── -->
+        <div class="gs-settings">
+          <div class="gs-setting-row">
+            <label class="gs-setting-label">Rounds</label>
+            <div class="gs-pill-group" id="pp-rounds-sel">
+              <button class="gs-pill active" data-value="0">∞ Survive</button>
+              <button class="gs-pill" data-value="5">5</button>
+              <button class="gs-pill" data-value="10">10</button>
+              <button class="gs-pill" data-value="15">15</button>
+            </div>
+          </div>
+          <div class="gs-setting-row">
+            <label class="gs-setting-label">Seconds / question</label>
+            <div class="gs-pill-group" id="pp-timer-sel">
+              <button class="gs-pill active" data-value="0">Adaptive</button>
+              <button class="gs-pill" data-value="5">5s</button>
+              <button class="gs-pill" data-value="10">10s</button>
+              <button class="gs-pill" data-value="15">15s</button>
+            </div>
+          </div>
+        </div>
+
         <button class="cta-btn" id="play-btn">⚡ Begin Training</button>
       </div>
 
@@ -130,6 +153,7 @@
 
 <div class="toast" id="toast"></div>
 
+<script type="module" src="../../assets/js/common.js"></script>
 <script type="module" src="../../assets/games/pattern-pulse.js"></script>
 </body>
 </html>

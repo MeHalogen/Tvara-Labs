@@ -6,12 +6,13 @@
 
 const LS_KEY = 'tf_sm_best';
 
-// Time per question (ms) — shrinks as score grows
-function getTimeMs(score) {
-  if (score >= 30) return 3500;
-  if (score >= 20) return 4500;
-  if (score >= 12) return 5500;
-  if (score >= 6)  return 7000;
+// Time per question (ms) — user override takes priority
+function getTimeMs(questions) {
+  if (state.timerSec) return state.timerSec * 1000;
+  if (questions >= 30) return 3500;
+  if (questions >= 20) return 4500;
+  if (questions >= 12) return 5500;
+  if (questions >= 6)  return 7000;
   return 9000;
 }
 
@@ -33,6 +34,9 @@ const state = {
   timerStart:  0,
   timeLimitMs: 9000,
   running:     false,
+  // User-configurable
+  timerSec:   0,   // 0 = adaptive
+  maxRounds:  0,   // 0 = infinite survive mode
 };
 
 // ── Audio ─────────────────────────────────────────────
@@ -207,6 +211,12 @@ function updateHeader() {
 
 // ── Next question ─────────────────────────────────────
 function nextQuestion() {
+  // Check round limit
+  if (state.maxRounds > 0 && state.questions >= state.maxRounds) {
+    showGameOver();
+    return;
+  }
+
   const eq = genEquation(state.questions);
   state.answer = eq.answer;
   state.inputStr = '';
@@ -223,7 +233,14 @@ function nextQuestion() {
 }
 
 // ── Game start ────────────────────────────────────────
+function getPillValue(id, fallback) {
+  const el = document.getElementById(id);
+  return el ? (el.dataset.selected || fallback) : fallback;
+}
+
 function launchGame() {
+  state.timerSec  = parseInt(getPillValue('sm-timer-sel', '0'), 10);
+  state.maxRounds = parseInt(getPillValue('sm-rounds-sel', '0'), 10);
   state.score = 0;
   state.streak = 0;
   state.bestStreak = 0;
@@ -276,8 +293,23 @@ function showGameOver() {
 }
 
 // ── Init ──────────────────────────────────────────────
+function initPillGroups() {
+  document.querySelectorAll('.gs-pill-group').forEach(group => {
+    group.addEventListener('click', e => {
+      const btn = e.target.closest('.gs-pill');
+      if (!btn) return;
+      group.querySelectorAll('.gs-pill').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      group.dataset.selected = btn.dataset.value;
+    });
+    const active = group.querySelector('.gs-pill.active');
+    if (active) group.dataset.selected = active.dataset.value;
+  });
+}
+
 function init() {
   document.getElementById('sm-best').textContent = getBest() || '—';
+  initPillGroups();
 
   document.getElementById('sm-play-btn').addEventListener('click', launchGame);
   document.getElementById('sm-restart-btn').addEventListener('click', launchGame);

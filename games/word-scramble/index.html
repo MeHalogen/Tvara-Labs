@@ -56,8 +56,39 @@
         <p><span>🔤</span> Tap scrambled letters to spell the hidden word</p>
         <p><span>⚡</span> Timer per word gets faster as you progress</p>
         <p><span>💡</span> Use the Hint (costs 5 pts) if you're truly stuck</p>
-        <p><span>💀</span> 3 timeouts ends the session</p>
+        <p><span>💀</span> Lose all lives and session ends</p>
       </div>
+
+      <!-- ── User settings ── -->
+      <div class="gs-settings">
+        <div class="gs-setting-row">
+          <label class="gs-setting-label" for="ws-diff-sel">Difficulty</label>
+          <div class="gs-pill-group" id="ws-diff-sel" data-type="single">
+            <button class="gs-pill active" data-value="easy">Easy</button>
+            <button class="gs-pill" data-value="medium">Medium</button>
+            <button class="gs-pill" data-value="hard">Hard</button>
+            <button class="gs-pill" data-value="mixed">Mixed ↑</button>
+          </div>
+        </div>
+        <div class="gs-setting-row">
+          <label class="gs-setting-label" for="ws-timer-sel">Seconds / word</label>
+          <div class="gs-pill-group" id="ws-timer-sel" data-type="single">
+            <button class="gs-pill" data-value="6">6s</button>
+            <button class="gs-pill active" data-value="10">10s</button>
+            <button class="gs-pill" data-value="15">15s</button>
+            <button class="gs-pill" data-value="20">20s</button>
+          </div>
+        </div>
+        <div class="gs-setting-row">
+          <label class="gs-setting-label" for="ws-lives-sel">Lives</label>
+          <div class="gs-pill-group" id="ws-lives-sel" data-type="single">
+            <button class="gs-pill" data-value="1">1</button>
+            <button class="gs-pill active" data-value="3">3</button>
+            <button class="gs-pill" data-value="5">5</button>
+          </div>
+        </div>
+      </div>
+
       <button class="ws-cta-btn" id="ws-play-btn">⚡ Begin Sprint</button>
     </div>
 
@@ -135,6 +166,7 @@
 </div><!-- /ws-app -->
 
 <div class="toast" id="toast"></div>
+<script type="module" src="../../assets/js/common.js"></script>
 <script type="module" src="../../assets/games/word-scramble.js"></script>
 </body>
 </html>

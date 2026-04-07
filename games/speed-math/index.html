@@ -58,6 +58,29 @@
         <p><span>💣</span> One wrong answer ends your run immediately</p>
         <p><span>⚡</span> Problems get harder and faster as you progress</p>
       </div>
+
+      <!-- ── User settings ── -->
+      <div class="gs-settings">
+        <div class="gs-setting-row">
+          <label class="gs-setting-label">Rounds</label>
+          <div class="gs-pill-group" id="sm-rounds-sel">
+            <button class="gs-pill active" data-value="0">∞ Survive</button>
+            <button class="gs-pill" data-value="10">10</button>
+            <button class="gs-pill" data-value="20">20</button>
+            <button class="gs-pill" data-value="30">30</button>
+          </div>
+        </div>
+        <div class="gs-setting-row">
+          <label class="gs-setting-label">Seconds / question</label>
+          <div class="gs-pill-group" id="sm-timer-sel">
+            <button class="gs-pill active" data-value="0">Adaptive</button>
+            <button class="gs-pill" data-value="5">5s</button>
+            <button class="gs-pill" data-value="9">9s</button>
+            <button class="gs-pill" data-value="15">15s</button>
+          </div>
+        </div>
+      </div>
+
       <button class="sm-cta-btn" id="sm-play-btn">⚡ Begin Sprint</button>
     </div>
 
@@ -148,6 +171,7 @@
 </div><!-- /sm-app -->
 
 <div class="toast" id="toast"></div>
+<script type="module" src="../../assets/js/common.js"></script>
 <script type="module" src="../../assets/games/speed-math.js"></script>
 </body>
 </html>

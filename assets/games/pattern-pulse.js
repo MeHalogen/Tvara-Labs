@@ -10,6 +10,10 @@ const state = {
   timer:    null,
   timeLeft: 10,
   running:  false,
+  // User-configurable
+  timerSec:   0,    // 0 = adaptive default
+  maxRounds:  0,    // 0 = infinite (survive mode)
+  roundsPlayed: 0,
 };
 
 // ── Audio ────────────────────────────────────────────
@@ -53,7 +57,11 @@ function saveBest(n)  { if (n > getBest()) localStorage.setItem(LS_KEY, n); }
 
 // ── Difficulty ───────────────────────────────────────
 function getDiff(score) { return score <= 3 ? 'easy' : score <= 8 ? 'medium' : 'hard'; }
-function getTime(diff)  { return diff === 'hard' ? 8 : diff === 'medium' ? 9 : 10; }
+function getTime(diff)  {
+  // User override takes priority
+  if (state.timerSec) return state.timerSec;
+  return diff === 'hard' ? 8 : diff === 'medium' ? 9 : 10;
+}
 
 // ── Pattern generators ───────────────────────────────
 function rand(a, b) { return Math.floor(Math.random() * (b - a + 1)) + a; }
@@ -159,6 +167,14 @@ function startTimer(total) {
 
 // ── Question generation ──────────────────────────────
 function generateQuestion() {
+  // Round limit reached → end like a win
+  if (state.maxRounds > 0 && state.roundsPlayed >= state.maxRounds) {
+    clearInterval(state.timer);
+    triggerGameOver();
+    return;
+  }
+  state.roundsPlayed++;
+
   const diff = getDiff(state.score);
   const { seq, answer } = buildQuestion(diff);
   state.answer = answer;
@@ -283,6 +299,10 @@ function shareScore() {
 
 // ── Launch ───────────────────────────────────────────
 function launchGame() {
+  // Read pill-group settings
+  state.timerSec    = parseInt(getPillValue('pp-timer-sel', '0'), 10);
+  state.maxRounds   = parseInt(getPillValue('pp-rounds-sel', '0'), 10);
+  state.roundsPlayed = 0;
   state.score   = 0;
   state.running = true;
   updateScoreBadge();
@@ -293,9 +313,29 @@ function launchGame() {
   generateQuestion();
 }
 
+function getPillValue(id, fallback) {
+  const el = document.getElementById(id);
+  return el ? (el.dataset.selected || fallback) : fallback;
+}
+
 // ── Init ─────────────────────────────────────────────
+function initPillGroups() {
+  document.querySelectorAll('.gs-pill-group').forEach(group => {
+    group.addEventListener('click', e => {
+      const btn = e.target.closest('.gs-pill');
+      if (!btn) return;
+      group.querySelectorAll('.gs-pill').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      group.dataset.selected = btn.dataset.value;
+    });
+    const active = group.querySelector('.gs-pill.active');
+    if (active) group.dataset.selected = active.dataset.value;
+  });
+}
+
 function init() {
   document.getElementById('pp-best').textContent = getBest() || '—';
+  initPillGroups();
   document.getElementById('play-btn').addEventListener('click', launchGame);
   document.getElementById('restart-btn').addEventListener('click', launchGame);
   document.getElementById('share-btn').addEventListener('click', shareScore);

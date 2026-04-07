@@ -140,6 +140,67 @@
 .howto span         { color: #94a3b8; }
 
 /* ════════════════════════════════
+   Game settings (pre-play)
+   ════════════════════════════════ */
+.gs-settings {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 14px;
+  padding: 14px 16px;
+  text-align: left;
+}
+
+.gs-setting-row {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.gs-setting-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.9px;
+  color: #475569;
+}
+
+.gs-pill-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.gs-pill {
+  padding: 5px 14px;
+  border-radius: 99px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid rgba(255,255,255,0.10);
+  background: rgba(255,255,255,0.04);
+  color: #64748b;
+  transition: background 0.13s, border-color 0.13s, color 0.13s;
+}
+
+.gs-pill:hover {
+  background: rgba(99,102,241,0.08);
+  border-color: rgba(99,102,241,0.25);
+  color: #a5b4fc;
+}
+
+.gs-pill.active {
+  background: rgba(99,102,241,0.18);
+  border-color: rgba(99,102,241,0.45);
+  color: #c7d2fe;
+  font-weight: 700;
+}
+
+/* ════════════════════════════════
    Game screen
    ════════════════════════════════ */
 #game-screen { animation: fadeUp 0.3s ease; }
