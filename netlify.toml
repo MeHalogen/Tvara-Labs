@@ -1,6 +1,9 @@
 [build]
   publish = "."
 
+[context.production]
+  branch = "main"
+
 [[headers]]
   for = "/*"
   [headers.values]
