@@ -221,6 +221,12 @@ function init() {
     document.dispatchEvent(new CustomEvent('tvara:start-session'));
   });
 
+  // Mock Set banner button
+  const mockBtn = document.getElementById('mock-set-btn');
+  if (mockBtn) mockBtn.addEventListener('click', () => {
+    document.dispatchEvent(new CustomEvent('tvara:start-mock'));
+  });
+
   // Landing enter button → dismiss splash, show home page
   const landingEnterBtn = document.getElementById('landing-enter-btn');
   const landingView2    = document.getElementById('landing-view');

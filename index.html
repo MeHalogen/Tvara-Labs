@@ -109,6 +109,18 @@
       <span class="section-count">8 active</span>
     </div>
 
+    <!-- Mock Set CTA banner -->
+    <div class="mock-set-banner" id="mock-set-banner">
+      <div class="msb-left">
+        <div class="msb-badge">NEW</div>
+        <div class="msb-text">
+          <div class="msb-title">Mock Set — 20 Questions</div>
+          <div class="msb-sub">Number Series · Percentages · Arithmetic · Logical Reasoning · Number Theory · Timed.</div>
+        </div>
+      </div>
+      <button class="msb-btn" id="mock-set-btn">Start Mock Set →</button>
+    </div>
+
     <!-- Tracks (turn modules into a platform) -->
     <div class="tracks" id="tracks">
       <div class="tracks-head">
@@ -391,8 +403,43 @@
 
 </div>
 
+<!-- ═══════════════════════════════════════
+     MOCK SET OVERLAY — 20-question timed set
+     ═══════════════════════════════════════ -->
+<div id="ms-overlay" class="ms-hidden" role="dialog" aria-modal="true" aria-label="Mock Set">
+
+  <button class="ms-back" id="ms-back" aria-label="Exit mock set">←</button>
+
+  <!-- ── QUESTION VIEW ── -->
+  <div class="ms-view" id="ms-question-view">
+    <div class="ms-progress">
+      <div class="ms-prog-bar-track">
+        <div class="ms-prog-bar" id="ms-prog-bar"></div>
+      </div>
+      <span class="ms-round-label" id="ms-round-label">Q 1 / 20</span>
+    </div>
+
+    <div class="ms-timer-row">
+      <div class="ms-timer-track">
+        <div class="ms-timer-bar" id="ms-timer-bar"></div>
+      </div>
+      <span class="ms-timer-label" id="ms-timer-label">30s</span>
+    </div>
+
+    <div class="ms-topic-tag" id="ms-topic-tag"></div>
+    <div class="ms-question" id="ms-question"></div>
+    <div class="ms-options" id="ms-options"></div>
+    <div class="ms-inline-fb" id="ms-inline-fb" aria-live="polite"></div>
+  </div>
+
+  <!-- ── SCORECARD VIEW ── -->
+  <div class="ms-view ms-view-hidden" id="ms-scorecard-view"></div>
+
+</div>
+
 <script type="module" src="assets/js/common.js"></script>
 <script type="module" src="assets/js/home.js"></script>
 <script type="module" src="assets/js/session.js"></script>
+<script type="module" src="assets/js/mock-set.js"></script>
 </body>
 </html>
