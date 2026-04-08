@@ -6,14 +6,49 @@
 const LS_KEY = 'tvara_data';
 const SETTINGS_KEY = 'tvara_settings';
 const DEVICE_KEY = 'tvara_device_id';
+const COOKIE_KEY = 'tvara_did';
+
+/* ── Cookie helpers (cross-browser on same device) ── */
+function getCookie(name) {
+  try {
+    const match = document.cookie.match(new RegExp('(?:^|; )' + name + '=([^;]*)'));
+    return match ? decodeURIComponent(match[1]) : null;
+  } catch (_) { return null; }
+}
+function setCookie(name, value) {
+  try {
+    // 2-year expiry, SameSite=Lax, no Secure so it works on http://localhost too
+    const exp = new Date(Date.now() + 2 * 365 * 24 * 60 * 60 * 1000).toUTCString();
+    document.cookie = `${name}=${encodeURIComponent(value)}; expires=${exp}; path=/; SameSite=Lax`;
+  } catch (_) {}
+}
+
+/* ── Simple deterministic hash (djb2) → number ── */
+function hashStr(s) {
+  let h = 5381;
+  for (let i = 0; i < s.length; i++) h = ((h << 5) + h) ^ s.charCodeAt(i);
+  return Math.abs(h);
+}
 
 export function getDeviceId() {
+  // 1. Check cookie first — shared across all browsers on the device
+  const fromCookie = getCookie(COOKIE_KEY);
+  if (fromCookie) {
+    // Back-fill localStorage for this browser
+    try { localStorage.setItem(DEVICE_KEY, fromCookie); } catch (_) {}
+    return fromCookie;
+  }
+  // 2. Fall back to localStorage (may exist from a previous session)
   try {
-    const existing = localStorage.getItem(DEVICE_KEY);
-    if (existing) return existing;
+    const fromLS = localStorage.getItem(DEVICE_KEY);
+    if (fromLS) {
+      setCookie(COOKIE_KEY, fromLS); // promote to cookie so other browsers pick it up
+      return fromLS;
+    }
   } catch (_) {}
-  // Not crypto-perfect; fine for anonymous install identification.
+  // 3. First ever visit on this device — generate, persist everywhere
   const id = 'tv_' + Math.random().toString(16).slice(2) + Math.random().toString(16).slice(2);
+  setCookie(COOKIE_KEY, id);
   try { localStorage.setItem(DEVICE_KEY, id); } catch (_) {}
   return id;
 }
@@ -30,9 +65,11 @@ const ANIMALS = [
 ];
 
 function generateUsername() {
-  const adj  = ADJECTIVES[Math.floor(Math.random() * ADJECTIVES.length)];
-  const ani  = ANIMALS[Math.floor(Math.random() * ANIMALS.length)];
-  const num  = 10 + Math.floor(Math.random() * 90); // 10–99
+  // Seed from device ID so all browsers on the same device get the same name
+  const seed = hashStr(getDeviceId());
+  const adj = ADJECTIVES[seed % ADJECTIVES.length];
+  const ani = ANIMALS[Math.floor(seed / ADJECTIVES.length) % ANIMALS.length];
+  const num = 10 + (seed % 90); // 10–99
   return `${adj}${ani}${num}`;
 }
 
@@ -42,9 +79,9 @@ export function loadUser() {
     const raw = localStorage.getItem(LS_KEY);
     if (raw) return JSON.parse(raw);
   } catch (_) {}
-  // First visit — create profile
+  // First visit on this browser — create profile seeded from device ID
   const fresh = {
-    username:   generateUsername(),
+    username:   generateUsername(), // deterministic from cookie-based device ID
     bestScore:  0,
     lastScore:  0,
     streak:     0,
